@@ -157,19 +157,21 @@
   width: 320px;
   aspect-ratio: 1;
   border-radius: 50%;
-  filter: blur(80px);
+  /* lighter blur keeps the saturated center visible; the radial
+     gradient already does most of the soft falloff work */
+  filter: blur(36px);
   mix-blend-mode: screen;
   pointer-events: none;
-  opacity: 0.55;
+  opacity: 0.85;
   will-change: transform;
 }
 
-.sk-color-spill.sk-spill-peach  { background: radial-gradient(circle, var(--sk-peach)  0%, transparent 65%); }
-.sk-color-spill.sk-spill-rose   { background: radial-gradient(circle, var(--sk-rose)   0%, transparent 65%); }
-.sk-color-spill.sk-spill-violet { background: radial-gradient(circle, var(--sk-violet) 0%, transparent 65%); }
-.sk-color-spill.sk-spill-indigo { background: radial-gradient(circle, var(--sk-indigo) 0%, transparent 65%); }
-.sk-color-spill.sk-spill-mint   { background: radial-gradient(circle, var(--sk-mint)   0%, transparent 65%); }
-.sk-color-spill.sk-spill-amber  { background: radial-gradient(circle, var(--sk-amber)  0%, transparent 65%); }
+.sk-color-spill.sk-spill-peach  { background: radial-gradient(circle, var(--sk-peach)  0%, rgba(217,119,87,0.55)  35%, transparent 70%); }
+.sk-color-spill.sk-spill-rose   { background: radial-gradient(circle, var(--sk-rose)   0%, rgba(197,117,154,0.55) 35%, transparent 70%); }
+.sk-color-spill.sk-spill-violet { background: radial-gradient(circle, var(--sk-violet) 0%, rgba(142,127,184,0.55) 35%, transparent 70%); }
+.sk-color-spill.sk-spill-indigo { background: radial-gradient(circle, var(--sk-indigo) 0%, rgba(107,141,201,0.55) 35%, transparent 70%); }
+.sk-color-spill.sk-spill-mint   { background: radial-gradient(circle, var(--sk-mint)   0%, rgba(127,182,158,0.55) 35%, transparent 70%); }
+.sk-color-spill.sk-spill-amber  { background: radial-gradient(circle, var(--sk-amber)  0%, rgba(217,179,119,0.55) 35%, transparent 70%); }
 
 /* Optional slow drift — opt in by adding the modifier class. */
 .sk-color-spill.sk-spill-drift {
@@ -369,22 +371,23 @@
   padding: 32px;
   color: var(--sk-text-primary);
   background:
-    /* diagonal aurora dispersion stripe */
+    /* diagonal aurora dispersion stripe — bumped from 0.16 to 0.32
+       so the rainbow actually reads on a dark base */
     linear-gradient(
       115deg,
       transparent 0%,
-      rgba(217, 119, 87, 0.16) 12%,
-      rgba(197, 117, 154, 0.16) 24%,
-      rgba(142, 127, 184, 0.16) 36%,
-      rgba(107, 141, 201, 0.16) 48%,
-      rgba(127, 182, 158, 0.16) 60%,
-      rgba(217, 179, 119, 0.16) 72%,
-      rgba(217, 119, 87, 0.16) 84%,
+      rgba(217, 119, 87, 0.32) 12%,
+      rgba(197, 117, 154, 0.32) 24%,
+      rgba(142, 127, 184, 0.32) 36%,
+      rgba(107, 141, 201, 0.32) 48%,
+      rgba(127, 182, 158, 0.32) 60%,
+      rgba(217, 179, 119, 0.32) 72%,
+      rgba(217, 119, 87, 0.32) 84%,
       transparent 100%
     ),
-    /* white glints */
-    radial-gradient(circle at 28% 22%, rgba(255, 255, 255, 0.08), transparent 22%),
-    radial-gradient(circle at 78% 72%, rgba(255, 255, 255, 0.05), transparent 18%),
+    /* white glints — also bumped */
+    radial-gradient(circle at 28% 22%, rgba(255, 255, 255, 0.16), transparent 24%),
+    radial-gradient(circle at 78% 72%, rgba(255, 255, 255, 0.10), transparent 20%),
     /* dark base */
     var(--sk-bg-elevated);
   background-size: 220% 220%, 100% 100%, 100% 100%, 100% 100%;
@@ -436,11 +439,11 @@
   background: linear-gradient(
     72deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.06) 20%,
-    rgba(217, 119, 87, 0.18) 35%,
-    rgba(142, 127, 184, 0.20) 50%,
-    rgba(107, 141, 201, 0.18) 65%,
-    rgba(255, 255, 255, 0.06) 80%,
+    rgba(255, 255, 255, 0.12) 20%,
+    rgba(217, 119, 87, 0.40) 35%,
+    rgba(142, 127, 184, 0.45) 50%,
+    rgba(107, 141, 201, 0.40) 65%,
+    rgba(255, 255, 255, 0.12) 80%,
     transparent 100%
   );
   background-size: 220% 100%;

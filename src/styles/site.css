@@ -102,6 +102,10 @@ body {
   justify-content: center;
   min-height: 160px;
   margin-bottom: 12px;
+  /* contain mix-blend-mode children (color spills) so they blend with
+     the demo bg, not all the way down to the page aurora layer */
+  isolation: isolate;
+  overflow: hidden;
 }
 
 .site-code {
