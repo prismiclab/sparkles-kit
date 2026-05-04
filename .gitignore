@@ -1,0 +1,33 @@
+# Editor / OS
+.DS_Store
+.vscode/
+.idea/
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+.next/
+out/
+build/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# Vercel
+.vercel/
+
+# Astro
+.astro/
+
+# Test artifacts
+coverage/
+test-results/
+playwright-report/
