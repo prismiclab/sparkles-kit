@@ -31,6 +31,7 @@ Sparkles-kit takes that vocabulary, dials the aurora a touch louder (because we 
 | Antigravity tile | `.sk-antigrav-tile` (+ `.sk-antigrav-grid`) | Floating glassmorphic tile — backdrop-blur, animated specular hairline ring, aurora underglow, drifting particles, idle bob, hover-lift. Optional dotted-grid modifier. |
 | Grid background | `.sk-grid-bg` (+ `.sk-grid-lined`) | Fixed dotted (default) or lined grid overlay. Sits between aurora veil and sparkles. Drop in once per layout. |
 | Color spill | `.sk-color-spill` + `.sk-spill-{peach,rose,violet,indigo,mint,amber}` (+ `.sk-spill-drift`) | Tile-sized aurora accent blob. Different from `.sk-blob` (fullscreen) — use for *localized* accents behind hero text, beside cards. |
+| Liquid tile | `.sk-liquid-tile` (+ `.sk-liquid-dark`) | Flowing iridescent foil — pastel radial blobs drift via animated `background-position`, glossy specular on top. Pinterest-aesthetic. Light substrate by default, dark variant uses kit aurora tokens. |
 | Aurora text | `.sk-aurora-text` | Static aurora-gradient text utility. Background-clip:text. For stat numbers + hero accents. |
 | Spotlight tile | `.sk-spotlight-tile` (+ `data-sk-spotlight`) | **Interactive.** Cursor-tracked radial highlight. Vercel/Linear pricing-card move. Needs JS. |
 | Tilt tile | `.sk-tilt-tile` (+ `data-sk-tilt`, `data-sk-tilt-max`) | **Interactive.** 3D perspective tilt toward cursor. Stripe pricing-card flavor. Needs JS. |

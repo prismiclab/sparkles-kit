@@ -601,6 +601,94 @@
 }
 
 /* ============================================================
+   4c-bis. Liquid tile — flowing iridescent foil
+   ------------------------------------------------------------
+   <div class="sk-liquid-tile">…dark text on iridescent bg…</div>
+
+   Pinterest-aesthetic: pastel pink/blue/violet/peach/mint
+   radial blobs that slowly drift across the tile via animated
+   background-position. Reads like holographic foil flowing
+   under glass. Light substrate by default — text inside should
+   be dark for contrast.
+   ============================================================ */
+.sk-liquid-tile {
+  position: relative;
+  border-radius: 18px;
+  padding: 32px;
+  color: #1a1419;
+  background:
+    /* Layered iridescent radial blobs — each pegged to a corner */
+    radial-gradient(ellipse 80% 60% at 25% 25%, rgba(255, 145, 200, 0.85), transparent 55%),
+    radial-gradient(ellipse 90% 70% at 75% 35%, rgba(140, 180, 255, 0.80), transparent 55%),
+    radial-gradient(ellipse 85% 70% at 30% 75%, rgba(180, 145, 240, 0.80), transparent 60%),
+    radial-gradient(ellipse 75% 60% at 80% 80%, rgba(255, 175, 145, 0.75), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 50% 50%, rgba(160, 230, 200, 0.60), transparent 60%),
+    /* Pearl base */
+    linear-gradient(135deg, #ffeaf5 0%, #e0eaff 100%);
+  background-size:
+    220% 220%, 240% 240%, 200% 200%, 260% 260%, 220% 220%, 100% 100%;
+  background-position:
+    0% 0%, 100% 0%, 0% 100%, 100% 100%, 50% 50%, 0 0;
+  isolation: isolate;
+  overflow: hidden;
+  animation: sk-liquid-flow 28s ease-in-out infinite alternate;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    0 12px 32px rgba(180, 145, 240, 0.25);
+}
+
+@keyframes sk-liquid-flow {
+  0% {
+    background-position:
+      0% 0%, 100% 0%, 0% 100%, 100% 100%, 50% 50%, 0 0;
+  }
+  50% {
+    background-position:
+      60% 80%, 20% 60%, 90% 30%, 40% 10%, 70% 80%, 0 0;
+  }
+  100% {
+    background-position:
+      100% 100%, 0% 100%, 100% 0%, 0% 0%, 30% 30%, 0 0;
+  }
+}
+
+/* Dark variant — same flow, but on the kit's dark substrate.
+   Uses the aurora palette tokens so it retones with the kit theme. */
+.sk-liquid-tile.sk-liquid-dark {
+  color: var(--sk-text-primary);
+  background:
+    radial-gradient(ellipse 80% 60% at 25% 25%, rgba(217, 119, 87, 0.55), transparent 60%),
+    radial-gradient(ellipse 90% 70% at 75% 35%, rgba(107, 141, 201, 0.55), transparent 60%),
+    radial-gradient(ellipse 85% 70% at 30% 75%, rgba(142, 127, 184, 0.55), transparent 65%),
+    radial-gradient(ellipse 75% 60% at 80% 80%, rgba(197, 117, 154, 0.50), transparent 60%),
+    radial-gradient(ellipse 70% 50% at 50% 50%, rgba(127, 182, 158, 0.40), transparent 60%),
+    var(--sk-bg-elevated);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 12px 32px rgba(0, 0, 0, 0.40);
+}
+
+/* Glossy speculal on top — gives it that "wet plastic" sheen */
+.sk-liquid-tile::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.35) 0%,
+    rgba(255, 255, 255, 0.12) 18%,
+    transparent 40%,
+    transparent 65%,
+    rgba(255, 255, 255, 0.10) 92%,
+    rgba(255, 255, 255, 0.22) 100%
+  );
+  mix-blend-mode: overlay;
+  z-index: 1;
+}
+
+/* ============================================================
    4d. Antigravity tile — floating glass in the Linear-look idiom
    ------------------------------------------------------------
    <div class="sk-antigrav-tile">…content…</div>
@@ -1404,6 +1492,12 @@
   padding: 24px;
 }
 
+/* The display:grid above otherwise wins over [hidden]'s implicit
+   display:none, so the modal stays visible by default. Force it. */
+.sk-modal-backdrop[hidden] {
+  display: none;
+}
+
 .sk-modal {
   max-width: 540px;
   width: 100%;
@@ -1692,6 +1786,7 @@
   .sk-antigrav-tile::before,
   .sk-antigrav-tile::after,
   .sk-color-spill.sk-spill-drift,
+  .sk-liquid-tile,
   .sk-skeleton::after,
   .sk-progress-indeterminate .sk-progress-fill,
   .sk-marquee-track,

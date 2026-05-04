@@ -16,6 +16,7 @@ import Skeleton from '../components/Skeleton.astro';
 import StatusDot from '../components/StatusDot.astro';
 import Tooltip from '../components/Tooltip.astro';
 import Marquee from '../components/Marquee.astro';
+import LiquidTile from '../components/LiquidTile.astro';
 import PillButton from '../components/PillButton.astro';
 import HoloSlider from '../components/HoloSlider.astro';
 import HoloToggle from '../components/HoloToggle.astro';
@@ -485,6 +486,48 @@ import CodeBlock from '../components/CodeBlock.astro';
       </span>
     </div>
     <CodeBlock code={`<h1 class="sk-aurora-text">infinity.</h1>`} />
+
+    {/* ============================================================ */}
+    {/* Liquid tile                                                   */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Liquid tile</h2>
+    <p class="site-section-note">
+      Holographic-foil flow — pastel pink/blue/violet/peach/mint
+      radial blobs drift across the tile via animated
+      <code>background-position</code>. Plus a glossy specular on
+      top for the "wet plastic" sheen. The Pinterest-aesthetic
+      iridescent vibe. Two flavors: pastel (default, light substrate
+      with dark text) and dark (uses the kit's aurora tokens on the
+      kit's dark substrate).
+    </p>
+
+    <div class="site-grid-2" style="margin-bottom: 12px;">
+      <LiquidTile>
+        <p class="site-eyebrow" style="color: rgba(26,20,25,0.55);">/ sk-liquid-tile</p>
+        <h3 style="font-family: var(--font-display); font-size: 26px; margin: 8px 0; letter-spacing: -0.02em; color: #1a1419;">
+          Iridescent.
+        </h3>
+        <p style="font-size: 14px; line-height: 1.6; color: rgba(26,20,25,0.72);">
+          The colors flow on a 28-second cycle. No two frames look
+          the same — the tile feels alive without being noisy.
+        </p>
+      </LiquidTile>
+
+      <LiquidTile variant="dark">
+        <p class="site-eyebrow">/ + sk-liquid-dark</p>
+        <h3 style="font-family: var(--font-display); font-size: 26px; margin: 8px 0; letter-spacing: -0.02em;">
+          Same flow, dark mode.
+        </h3>
+        <p style="color: var(--sk-text-secondary); font-size: 14px; line-height: 1.6;">
+          For UIs that stay on the dark substrate. Uses the kit's
+          aurora palette tokens, so it retones when you swap them.
+        </p>
+      </LiquidTile>
+    </div>
+
+    <CodeBlock code={`<div class="sk-liquid-tile">…content…</div>
+
+<div class="sk-liquid-tile sk-liquid-dark">…content…</div>`} />
 
     {/* ============================================================ */}
     {/* Spotlight tile                                                */}

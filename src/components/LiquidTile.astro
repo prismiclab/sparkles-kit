@@ -1,0 +1,17 @@
+---
+interface Props {
+  variant?: 'pastel' | 'dark';
+  as?: 'div' | 'a';
+  href?: string;
+  class?: string;
+}
+
+const { variant = 'pastel', as = 'div', href, class: className = '' } = Astro.props;
+const variantClass = variant === 'dark' ? 'sk-liquid-dark' : '';
+const classes = ['sk-liquid-tile', variantClass, className].filter(Boolean).join(' ');
+const Tag = as;
+---
+
+<Tag class={classes} href={href}>
+  <slot />
+</Tag>
