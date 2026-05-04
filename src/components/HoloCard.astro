@@ -1,0 +1,16 @@
+---
+interface Props {
+  glow?: boolean;
+  as?: 'div' | 'a';
+  href?: string;
+  class?: string;
+}
+
+const { glow = false, as = 'div', href, class: className = '' } = Astro.props;
+const Tag = as;
+const classes = ['sk-holo-card', glow ? 'sk-holo-glow' : '', className].filter(Boolean).join(' ');
+---
+
+<Tag class={classes} href={href}>
+  <slot />
+</Tag>

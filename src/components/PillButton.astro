@@ -1,0 +1,29 @@
+---
+interface Props {
+  variant?: 'primary' | 'ghost' | 'holo';
+  as?: 'button' | 'a';
+  href?: string;
+  type?: 'button' | 'submit' | 'reset';
+  class?: string;
+}
+
+const {
+  variant = 'primary',
+  as = 'button',
+  href,
+  type = 'button',
+  class: className = '',
+} = Astro.props;
+
+const variantClass =
+  variant === 'ghost' ? 'sk-pill-ghost' : variant === 'holo' ? 'sk-pill-holo' : '';
+
+const classes = ['sk-pill', variantClass, className].filter(Boolean).join(' ');
+const Tag = as;
+---
+
+{Tag === 'a' ? (
+  <a class={classes} href={href}><slot /></a>
+) : (
+  <button class={classes} type={type}><slot /></button>
+)}

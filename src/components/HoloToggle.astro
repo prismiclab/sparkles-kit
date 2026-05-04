@@ -1,0 +1,14 @@
+---
+interface Props {
+  checked?: boolean;
+  name?: string;
+  class?: string;
+}
+
+const { checked = false, name, class: className = '' } = Astro.props;
+---
+
+<label class={`sk-toggle ${className}`.trim()}>
+  <input type="checkbox" checked={checked} name={name} />
+  <span class="sk-toggle-track"><span class="sk-toggle-thumb"></span></span>
+</label>

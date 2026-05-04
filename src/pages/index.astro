@@ -1,0 +1,302 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HoloCard from '../components/HoloCard.astro';
+import HoloPanel from '../components/HoloPanel.astro';
+import PillButton from '../components/PillButton.astro';
+import HoloSlider from '../components/HoloSlider.astro';
+import HoloToggle from '../components/HoloToggle.astro';
+import CodeBlock from '../components/CodeBlock.astro';
+---
+
+<BaseLayout
+  title="sparkles-kit — drop-in CSS for sparkles, holo edges, rainbow UI"
+  description="A small, dependency-free CSS kit for sparkles, rotating holo edges, and aurora-tinted UI. Copy the file, use the classes, ship."
+>
+  <main class="site-shell">
+
+    <header>
+      <p class="site-eyebrow">— sparkles-kit / v0.1</p>
+      <h1 class="sk-aurora-line site-h1" data-text="A small kit for sparkles, holo edges, and rainbow UI.">
+        A small kit for sparkles, holo edges, and rainbow UI.
+      </h1>
+      <p class="site-lede">
+        One CSS file, no JavaScript required, no framework lock-in. Drop it
+        into any project and use the classes below. Built on conic gradients,
+        custom properties, and registered <code style="font-family: var(--font-mono); font-size: 14px;">@property</code> angles
+        — it stays smooth because the browser owns the animation.
+      </p>
+
+      <div style="margin-top: 32px; display: flex; gap: 12px; flex-wrap: wrap;">
+        <PillButton variant="primary" as="a" href="#install">install</PillButton>
+        <PillButton variant="ghost" as="a" href="#components">components</PillButton>
+        <PillButton variant="holo" as="a" href="https://github.com/" >github</PillButton>
+      </div>
+    </header>
+
+    {/* ============================================================ */}
+    {/* Install                                                       */}
+    {/* ============================================================ */}
+    <h2 class="site-h2" id="install">Install</h2>
+    <p class="site-section-note">
+      Two options. Pick whichever matches your project. Both deliver
+      the same classes.
+    </p>
+
+    <div class="site-grid-2">
+      <HoloPanel>
+        <p class="site-eyebrow">option a — vanilla</p>
+        <p style="margin: 12px 0 16px; color: var(--sk-text-secondary); font-size: 14px;">
+          Copy <code>sparkles-kit.css</code> into your project and link it
+          from your HTML. Works with any framework or none.
+        </p>
+        <CodeBlock code={`<link rel="stylesheet" href="/sparkles-kit.css" />`} />
+      </HoloPanel>
+
+      <HoloPanel>
+        <p class="site-eyebrow">option b — astro / vite / next</p>
+        <p style="margin: 12px 0 16px; color: var(--sk-text-secondary); font-size: 14px;">
+          Drop the file in <code>src/styles/</code> and import it once
+          from your root layout.
+        </p>
+        <CodeBlock code={`import '../styles/sparkles-kit.css';`} />
+      </HoloPanel>
+    </div>
+
+    {/* ============================================================ */}
+    {/* Sparkles + aurora background                                  */}
+    {/* ============================================================ */}
+    <h2 class="site-h2" id="components">Sparkles + aurora</h2>
+    <p class="site-section-note">
+      The whole page already has both running — those are the
+      drifting blobs and the static-but-pulsing dots in the background.
+      Drop these once into your root layout; they fix to the viewport.
+    </p>
+
+    <CodeBlock code={`<!-- aurora blobs (z:0) -->
+<div class="sk-aurora-layer" aria-hidden="true">
+  <div class="sk-blob sk-blob-peach"></div>
+  <div class="sk-blob sk-blob-amber"></div>
+  <div class="sk-blob sk-blob-mint"></div>
+  <div class="sk-blob sk-blob-indigo"></div>
+  <div class="sk-blob sk-blob-violet"></div>
+  <div class="sk-blob sk-blob-rose"></div>
+</div>
+<div class="sk-aurora-veil" aria-hidden="true"></div>
+
+<!-- sparkle layer (z:2) — one .sk-sparkle per dot -->
+<div class="sk-sparkle-layer" aria-hidden="true">
+  <span class="sk-sparkle sk-sparkle-ambient"
+        style="left: 12%; top: 33%; width: 2px; height: 2px;
+               --sk-c: #C5759A; --sk-base-opacity: 0.6;
+               --sk-drift-x: 30px; --sk-drift-y: -20px;"></span>
+  <!-- ...repeat for each sparkle... -->
+</div>`} />
+
+    {/* ============================================================ */}
+    {/* Pill buttons                                                  */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Pill buttons</h2>
+    <p class="site-section-note">
+      Three variants. <code>.sk-pill</code> alone is the warm-peach default;
+      <code>.sk-pill-ghost</code> is transparent with a hairline border;
+      <code>.sk-pill-holo</code> wraps a rotating rainbow ring that blooms on hover.
+    </p>
+
+    <div class="site-demo">
+      <PillButton>primary</PillButton>
+      <PillButton variant="ghost">ghost</PillButton>
+      <PillButton variant="holo">holo on hover</PillButton>
+    </div>
+
+    <CodeBlock code={`<button class="sk-pill">primary</button>
+<button class="sk-pill sk-pill-ghost">ghost</button>
+<button class="sk-pill sk-pill-holo">holo on hover</button>`} />
+
+    {/* ============================================================ */}
+    {/* Holo card                                                     */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Holo card</h2>
+    <p class="site-section-note">
+      A rotating 1px conic-gradient border around a glass-like surface.
+      Add <code>.sk-holo-glow</code> for an outer bloom that intensifies on hover.
+      Hover the right one.
+    </p>
+
+    <div class="site-grid-2" style="margin-bottom: 16px;">
+      <HoloCard>
+        <p class="site-eyebrow">/ sk-holo-card</p>
+        <h3 style="font-family: var(--font-display); font-size: 22px; margin: 8px 0; letter-spacing: -0.015em;">
+          Quiet by default
+        </h3>
+        <p style="color: var(--sk-text-secondary); font-size: 14px; line-height: 1.6;">
+          The edge gradient sits at 32% opacity until you hover. No layout shift.
+          Background also deepens by one shade on hover.
+        </p>
+      </HoloCard>
+
+      <HoloCard glow>
+        <p class="site-eyebrow">/ sk-holo-card.sk-holo-glow</p>
+        <h3 style="font-family: var(--font-display); font-size: 22px; margin: 8px 0; letter-spacing: -0.015em;">
+          With outer bloom
+        </h3>
+        <p style="color: var(--sk-text-secondary); font-size: 14px; line-height: 1.6;">
+          Same card, but a heavily blurred conic gradient bleeds outward
+          behind it. Hover lifts the bloom from 22% to 40% opacity.
+        </p>
+      </HoloCard>
+    </div>
+
+    <CodeBlock code={`<div class="sk-holo-card">…content…</div>
+
+<div class="sk-holo-card sk-holo-glow">…content with outer bloom…</div>`} />
+
+    {/* ============================================================ */}
+    {/* Holo panel                                                    */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Holo hover panel</h2>
+    <p class="site-section-note">
+      Lighter than the card — no border ring, just a soft conic
+      gradient that blooms behind the panel on hover. Good for grid tiles
+      and feature lists. Hover any of these.
+    </p>
+
+    <div class="site-grid-2" style="margin-bottom: 16px;">
+      <HoloPanel>
+        <p class="site-eyebrow">001 / discover</p>
+        <h3 style="font-family: var(--font-display); font-size: 20px; margin: 6px 0;">Sparkles</h3>
+        <p style="color: var(--sk-text-secondary); font-size: 14px;">Drifting, pulsing dots in six aurora hues.</p>
+      </HoloPanel>
+      <HoloPanel>
+        <p class="site-eyebrow">002 / wrap</p>
+        <h3 style="font-family: var(--font-display); font-size: 20px; margin: 6px 0;">Holo edges</h3>
+        <p style="color: var(--sk-text-secondary); font-size: 14px;">Conic-gradient borders that rotate via @property.</p>
+      </HoloPanel>
+      <HoloPanel>
+        <p class="site-eyebrow">003 / press</p>
+        <h3 style="font-family: var(--font-display); font-size: 20px; margin: 6px 0;">Pill buttons</h3>
+        <p style="color: var(--sk-text-secondary); font-size: 14px;">Three variants. Holo glow only on demand.</p>
+      </HoloPanel>
+    </div>
+
+    <CodeBlock code={`<div class="sk-holo-panel">…content…</div>`} />
+
+    {/* ============================================================ */}
+    {/* Slider + toggle                                               */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Slider + toggle</h2>
+    <p class="site-section-note">
+      Cross-browser styled native inputs. The slider track paints
+      the full aurora; the toggle swaps to a gradient when checked.
+    </p>
+
+    <div class="site-demo" style="flex-direction: column; align-items: stretch; gap: 32px;">
+      <div>
+        <label style="display: block; font-family: var(--font-mono); font-size: 13px; color: var(--sk-text-secondary); margin-bottom: 12px;">
+          / sk-slider
+        </label>
+        <HoloSlider value={62} />
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <label style="font-family: var(--font-mono); font-size: 13px; color: var(--sk-text-secondary);">
+          / sk-toggle
+        </label>
+        <HoloToggle />
+        <HoloToggle checked />
+      </div>
+    </div>
+
+    <CodeBlock code={`<input type="range" class="sk-slider" min="0" max="100" value="62" />
+
+<label class="sk-toggle">
+  <input type="checkbox" />
+  <span class="sk-toggle-track"><span class="sk-toggle-thumb"></span></span>
+</label>`} />
+
+    {/* ============================================================ */}
+    {/* Aurora-line headline                                          */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Aurora-line headline</h2>
+    <p class="site-section-note">
+      A cream-white headline with a slowly-rotating conic-gradient
+      duplicate clipped to the text. Reads like "shimmer on metal,
+      not rainbow text". Pass the same string twice — once as content,
+      once via <code>data-text</code>.
+    </p>
+
+    <div class="site-demo">
+      <span class="sk-aurora-line" style="font-family: var(--font-display); font-size: clamp(32px, 5vw, 56px); letter-spacing: -0.025em;" data-text="hello, holo.">
+        hello, holo.
+      </span>
+    </div>
+
+    <CodeBlock code={`<h1 class="sk-aurora-line" data-text="hello, holo.">
+  hello, holo.
+</h1>`} />
+
+    {/* ============================================================ */}
+    {/* Avatar                                                        */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Aurora ring avatar</h2>
+    <p class="site-section-note">
+      Instagram-story-style ring around a circular photo well.
+      Falls back to initials if no image is set.
+    </p>
+
+    <div class="site-demo">
+      <div class="sk-avatar">
+        <div class="sk-avatar-ring"></div>
+        <div class="sk-avatar-photo">nw</div>
+      </div>
+    </div>
+
+    <CodeBlock code={`<div class="sk-avatar">
+  <div class="sk-avatar-ring"></div>
+  <div class="sk-avatar-photo">
+    <!-- <img src="..."/> or initials fallback -->
+    nw
+  </div>
+</div>`} />
+
+    {/* ============================================================ */}
+    {/* Customizing                                                   */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Customizing</h2>
+    <p class="site-section-note">
+      Override any of the <code>--sk-*</code> custom properties on
+      <code>:root</code> (or any ancestor) to retheme. Six aurora hues,
+      one section accent (used by the cursor and pill rings), and the
+      foundation tokens for surfaces and text.
+    </p>
+
+    <CodeBlock code={`:root {
+  /* aurora palette */
+  --sk-peach:  #D97757;
+  --sk-rose:   #C5759A;
+  --sk-violet: #8E7FB8;
+  --sk-indigo: #6B8DC9;
+  --sk-mint:   #7FB69E;
+  --sk-amber:  #D9B377;
+
+  /* surfaces + text */
+  --sk-bg-base:        #0A0A0A;
+  --sk-bg-elevated:    #141413;
+  --sk-text-primary:   #F5F1EB;
+  --sk-text-secondary: #8B8884;
+
+  /* active section accent (RGB triplet) */
+  --sk-section-rgb: 217, 119, 87;
+}`} />
+
+    {/* ============================================================ */}
+    {/* Footer                                                        */}
+    {/* ============================================================ */}
+    <footer class="site-footer">
+      <span>sparkles-kit · v0.1 · MIT</span>
+      <span>
+        sibling of <a href="https://wyss.cx">wyss.cx</a> ·
+        <a href="https://nicowyss.ch">nicowyss.ch</a>
+      </span>
+    </footer>
+  </main>
+</BaseLayout>

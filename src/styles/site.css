@@ -1,0 +1,151 @@
+@import "tailwindcss";
+@import "./sparkles-kit.css";
+
+@theme {
+  --color-bg-base: #0A0A0A;
+  --color-bg-elevated: #141413;
+  --color-text-primary: #F5F1EB;
+  --color-text-secondary: #8B8884;
+  --color-text-muted: #5A5754;
+
+  --font-display: "Geist", "Inter Tight", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Geist", "Inter Tight", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+:root {
+  --sk-font-display: var(--font-display);
+  --sk-font-mono: var(--font-mono);
+}
+
+html {
+  background: var(--sk-bg-base);
+  color: var(--sk-text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--sk-bg-base);
+  color: var(--sk-text-primary);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+::selection {
+  background: rgba(217, 119, 87, 0.35);
+  color: var(--sk-text-primary);
+}
+
+/* ----- showcase site only (not part of the kit) ----- */
+.site-shell {
+  position: relative;
+  z-index: 3;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: clamp(48px, 8vh, 120px) 24px clamp(80px, 12vh, 200px);
+}
+
+.site-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: var(--sk-text-secondary);
+  text-transform: lowercase;
+}
+
+.site-h1 {
+  font-family: var(--font-display);
+  font-size: clamp(48px, 8vw, 96px);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  margin-top: 16px;
+}
+
+.site-h2 {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3vw, 40px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-top: 96px;
+  margin-bottom: 8px;
+}
+
+.site-lede {
+  color: var(--sk-text-secondary);
+  font-size: 18px;
+  line-height: 1.6;
+  max-width: 60ch;
+  margin-top: 16px;
+}
+
+.site-section-note {
+  color: var(--sk-text-secondary);
+  font-size: 15px;
+  max-width: 60ch;
+  margin-bottom: 32px;
+}
+
+.site-demo {
+  border: 1px solid var(--sk-border-subtle);
+  background: rgba(20, 20, 19, 0.4);
+  border-radius: 18px;
+  padding: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  min-height: 160px;
+  margin-bottom: 12px;
+}
+
+.site-code {
+  border: 1px solid var(--sk-border-subtle);
+  background: #0c0c0b;
+  border-radius: 14px;
+  padding: 20px 24px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: var(--sk-text-secondary);
+  overflow-x: auto;
+  white-space: pre;
+}
+
+.site-code .k { color: #C5759A; }
+.site-code .s { color: #9DBF8E; }
+.site-code .a { color: #D9B377; }
+.site-code .c { color: #5A5754; }
+
+.site-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.site-footer {
+  margin-top: 120px;
+  padding-top: 24px;
+  border-top: 1px solid var(--sk-border-subtle);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--sk-text-muted);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: space-between;
+}
+
+.site-footer a {
+  color: var(--sk-text-secondary);
+  text-decoration: none;
+  transition: color 200ms ease-out;
+}
+
+.site-footer a:hover { color: var(--sk-text-primary); }

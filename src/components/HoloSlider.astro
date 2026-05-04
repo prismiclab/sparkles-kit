@@ -1,0 +1,29 @@
+---
+interface Props {
+  min?: number;
+  max?: number;
+  value?: number;
+  step?: number;
+  name?: string;
+  class?: string;
+}
+
+const {
+  min = 0,
+  max = 100,
+  value = 50,
+  step = 1,
+  name,
+  class: className = '',
+} = Astro.props;
+---
+
+<input
+  type="range"
+  class={`sk-slider ${className}`.trim()}
+  min={min}
+  max={max}
+  value={value}
+  step={step}
+  name={name}
+/>

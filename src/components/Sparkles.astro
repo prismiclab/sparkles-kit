@@ -1,0 +1,67 @@
+---
+interface Props {
+  count?: number;
+  seed?: number;
+}
+
+const { count = 30, seed = 1729 } = Astro.props;
+
+const auroraVars = ['peach', 'rose', 'violet', 'indigo', 'mint', 'amber'] as const;
+const colorMap = {
+  peach:  '#D97757',
+  rose:   '#C5759A',
+  violet: '#8E7FB8',
+  indigo: '#6B8DC9',
+  mint:   '#7FB69E',
+  amber:  '#D9B377',
+};
+
+// Deterministic PRNG so SSR + hydration agree.
+const rng = (s: number) => {
+  let x = s;
+  return () => {
+    x = (x * 9301 + 49297) % 233280;
+    return x / 233280;
+  };
+};
+const r = rng(seed);
+
+const sparkles = Array.from({ length: count }, () => {
+  const c = auroraVars[Math.floor(r() * auroraVars.length)];
+  return {
+    left: r() * 100,
+    top: r() * 100,
+    size: 1 + r() * 2,
+    color: colorMap[c],
+    driftDur: 18 + r() * 22,
+    driftDelay: -r() * 25,
+    pulseDur: 3 + r() * 5,
+    pulseDelay: -r() * 8,
+    driftX: (r() - 0.5) * 60,
+    driftY: (r() - 0.5) * 60,
+    baseOpacity: 0.35 + r() * 0.4,
+  };
+});
+---
+
+<div class="sk-sparkle-layer" aria-hidden="true">
+  {sparkles.map((s) => (
+    <span
+      class="sk-sparkle sk-sparkle-ambient"
+      style={`
+        left: ${s.left}%;
+        top: ${s.top}%;
+        width: ${s.size}px;
+        height: ${s.size}px;
+        --sk-c: ${s.color};
+        --sk-base-opacity: ${s.baseOpacity.toFixed(2)};
+        --sk-drift-dur: ${s.driftDur.toFixed(1)}s;
+        --sk-drift-delay: ${s.driftDelay.toFixed(1)}s;
+        --sk-pulse-dur: ${s.pulseDur.toFixed(1)}s;
+        --sk-pulse-delay: ${s.pulseDelay.toFixed(1)}s;
+        --sk-drift-x: ${s.driftX.toFixed(0)}px;
+        --sk-drift-y: ${s.driftY.toFixed(0)}px;
+      `}
+    ></span>
+  ))}
+</div>
