@@ -1,29 +1,14 @@
 ---
+import { Code } from 'astro:components';
+
 interface Props {
   code: string;
+  lang?: 'html' | 'css' | 'js' | 'ts' | 'astro';
 }
 
-const { code } = Astro.props;
-
-// Tiny syntax tinter — turns HTML/CSS into spans the .site-code stylesheet
-// already understands (.k = keyword/tag, .a = attr name, .s = string, .c = comment).
-// Not a real parser; just enough to stop monocolor blocks from looking flat.
-function tint(src: string): string {
-  return src
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    // CSS comments
-    .replace(/(\/\*[\s\S]*?\*\/)/g, '<span class="c">$1</span>')
-    // strings
-    .replace(/(&quot;[^&]*?&quot;|"[^"]*?"|'[^']*?')/g, '<span class="s">$1</span>')
-    // HTML opening/closing tags
-    .replace(/(&lt;\/?)([a-zA-Z][\w-]*)/g, '$1<span class="k">$2</span>')
-    // HTML attribute names
-    .replace(/(\s)([a-zA-Z-]+)(=)/g, '$1<span class="a">$2</span>$3');
-}
-
-const tinted = tint(code);
+const { code, lang = 'html' } = Astro.props;
 ---
 
-<pre class="site-code"><code set:html={tinted}></code></pre>
+<div class="site-code-wrap">
+  <Code code={code} lang={lang} theme="github-dark" />
+</div>

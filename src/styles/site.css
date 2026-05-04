@@ -108,23 +108,23 @@ body {
   overflow: hidden;
 }
 
-.site-code {
-  border: 1px solid var(--sk-border-subtle);
-  background: #0c0c0b;
-  border-radius: 14px;
-  padding: 20px 24px;
-  font-family: var(--font-mono);
-  font-size: 12.5px;
-  line-height: 1.65;
-  color: var(--sk-text-secondary);
-  overflow-x: auto;
-  white-space: pre;
+/* Wrapper around the Astro <Code> component (Shiki-rendered).
+   Shiki ships its own <pre> with theme background; we just give it
+   a border + radius + margin so it sits in the showcase like any
+   other tile. */
+.site-code-wrap {
+  margin-bottom: 12px;
 }
 
-.site-code .k { color: #C5759A; }
-.site-code .s { color: #9DBF8E; }
-.site-code .a { color: #D9B377; }
-.site-code .c { color: #5A5754; }
+.site-code-wrap pre.astro-code {
+  border: 1px solid var(--sk-border-subtle);
+  border-radius: 14px;
+  padding: 20px 24px;
+  font-size: 12.5px;
+  line-height: 1.65;
+  overflow-x: auto;
+  margin: 0;
+}
 
 .site-grid-2 {
   display: grid;

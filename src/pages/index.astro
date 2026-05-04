@@ -5,7 +5,6 @@ import HoloPanel from '../components/HoloPanel.astro';
 import PrismTile from '../components/PrismTile.astro';
 import PuttyBlob from '../components/PuttyBlob.astro';
 import AntigravTile from '../components/AntigravTile.astro';
-import GridBg from '../components/GridBg.astro';
 import ColorSpill from '../components/ColorSpill.astro';
 import PillButton from '../components/PillButton.astro';
 import HoloSlider from '../components/HoloSlider.astro';
@@ -63,7 +62,7 @@ import CodeBlock from '../components/CodeBlock.astro';
           Drop the file in <code>src/styles/</code> and import it once
           from your root layout.
         </p>
-        <CodeBlock code={`import '../styles/sparkles-kit.css';`} />
+        <CodeBlock code={`import '../styles/sparkles-kit.css';`} lang="js" />
       </HoloPanel>
     </div>
 
@@ -471,7 +470,7 @@ import CodeBlock from '../components/CodeBlock.astro';
       foundation tokens for surfaces and text.
     </p>
 
-    <CodeBlock code={`:root {
+    <CodeBlock lang="css" code={`:root {
   /* aurora palette */
   --sk-peach:  #D97757;
   --sk-rose:   #C5759A;
