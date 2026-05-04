@@ -1,5 +1,7 @@
 # sparkles-kit
 
+[![GitHub](https://img.shields.io/badge/github-prismiclab%2Fsparkles--kit-D97757?style=flat&logo=github)](https://github.com/prismiclab/sparkles-kit) · [Live demo](https://wyss.cx/sparkles/)
+
 A small, dependency-free CSS kit for sparkles, holo edges, and rainbow UI.
 
 Distilled from the look on [nicowyss.ch](https://nicowyss.ch) and [wyss.cx](https://wyss.cx) — drifting aurora blobs, rotating conic-gradient borders, twinkling sparkles, and pill buttons that bloom on hover. Drop one file into any project, use the classes, ship.
