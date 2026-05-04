@@ -1,0 +1,15 @@
+---
+type Status = 'online' | 'busy' | 'away' | 'offline';
+
+interface Props {
+  status?: Status;
+  class?: string;
+}
+
+const { status = 'offline', class: className = '' } = Astro.props;
+---
+
+<span
+  class={['sk-status-dot', `sk-status-${status}`, className].filter(Boolean).join(' ')}
+  aria-label={status}
+></span>

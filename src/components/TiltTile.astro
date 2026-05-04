@@ -1,0 +1,16 @@
+---
+interface Props {
+  max?: number;
+  as?: 'div' | 'a';
+  href?: string;
+  class?: string;
+}
+
+const { max = 8, as = 'div', href, class: className = '' } = Astro.props;
+const Tag = as;
+const classes = ['sk-tilt-tile', className].filter(Boolean).join(' ');
+---
+
+<Tag class={classes} href={href} data-sk-tilt data-sk-tilt-max={max}>
+  <slot />
+</Tag>

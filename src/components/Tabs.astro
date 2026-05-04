@@ -1,0 +1,26 @@
+---
+interface Tab {
+  label: string;
+  active?: boolean;
+}
+
+interface Props {
+  tabs: Tab[];
+  class?: string;
+}
+
+const { tabs, class: className = '' } = Astro.props;
+---
+
+<div class={`sk-tabs ${className}`.trim()} role="tablist">
+  {tabs.map((t) => (
+    <button
+      type="button"
+      class={['sk-tab', t.active ? 'is-active' : ''].filter(Boolean).join(' ')}
+      role="tab"
+      aria-selected={t.active ? 'true' : 'false'}
+    >
+      {t.label}
+    </button>
+  ))}
+</div>

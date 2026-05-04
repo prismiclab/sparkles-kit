@@ -1,0 +1,18 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<div class={`sk-marquee ${className}`.trim()}>
+  <div class="sk-marquee-track">
+    <slot />
+    <!-- Duplicate slot content for a seamless loop. Astro doesn't
+         allow duplicate <slot/>; the user can either pass content
+         twice or use the script-less workaround of writing two
+         duplicate <Marquee>s side by side. We render the slot once
+         and the user duplicates inline; documented in README. -->
+  </div>
+</div>

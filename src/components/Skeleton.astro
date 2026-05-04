@@ -1,0 +1,15 @@
+---
+interface Props {
+  width?: string;
+  height?: string;
+  class?: string;
+}
+
+const { width = '100%', height = '14px', class: className = '' } = Astro.props;
+---
+
+<div
+  class={`sk-skeleton ${className}`.trim()}
+  style={`width: ${width}; height: ${height};`}
+  aria-hidden="true"
+></div>

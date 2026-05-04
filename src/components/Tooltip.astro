@@ -1,0 +1,14 @@
+---
+interface Props {
+  text: string;
+  as?: string;
+  class?: string;
+}
+
+const { text, as = 'span', class: className = '' } = Astro.props;
+const Tag = as;
+---
+
+<Tag class={`sk-tooltip ${className}`.trim()} data-tooltip={text}>
+  <slot />
+</Tag>

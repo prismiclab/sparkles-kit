@@ -31,6 +31,22 @@ Sparkles-kit takes that vocabulary, dials the aurora a touch louder (because we 
 | Antigravity tile | `.sk-antigrav-tile` (+ `.sk-antigrav-grid`) | Floating glassmorphic tile — backdrop-blur, animated specular hairline ring, aurora underglow, drifting particles, idle bob, hover-lift. Optional dotted-grid modifier. |
 | Grid background | `.sk-grid-bg` (+ `.sk-grid-lined`) | Fixed dotted (default) or lined grid overlay. Sits between aurora veil and sparkles. Drop in once per layout. |
 | Color spill | `.sk-color-spill` + `.sk-spill-{peach,rose,violet,indigo,mint,amber}` (+ `.sk-spill-drift`) | Tile-sized aurora accent blob. Different from `.sk-blob` (fullscreen) — use for *localized* accents behind hero text, beside cards. |
+| Aurora text | `.sk-aurora-text` | Static aurora-gradient text utility. Background-clip:text. For stat numbers + hero accents. |
+| Spotlight tile | `.sk-spotlight-tile` (+ `data-sk-spotlight`) | **Interactive.** Cursor-tracked radial highlight. Vercel/Linear pricing-card move. Needs JS. |
+| Tilt tile | `.sk-tilt-tile` (+ `data-sk-tilt`, `data-sk-tilt-max`) | **Interactive.** 3D perspective tilt toward cursor. Stripe pricing-card flavor. Needs JS. |
+| Stat tile | `.sk-stat-tile` + `.sk-stat-{label,value,trend,trend-up,trend-down}` | Big number + label + optional trend arrow. Composes `.sk-aurora-text` for the value. |
+| Bento grid | `.sk-bento` + `.sk-bento-{2,3,4,2-2,feature}` (+ `.sk-bento-hero`) | Predefined grid recipes. Auto-collapse to 1 column on mobile. |
+| Tabs | `.sk-tabs` + `.sk-tab` (+ `.is-active` / `[aria-selected]`) | Pill-style tabs. Active tab tints with the section accent. |
+| Inputs | `.sk-input`, `.sk-textarea` | Text input + textarea with aurora focus rings. |
+| Progress | `.sk-progress` + `.sk-progress-fill` (+ `.sk-progress-indeterminate`) | Aurora-filled progress bar. Determinate or sliding indeterminate. |
+| Skeleton | `.sk-skeleton` | Loading placeholder with aurora shimmer wave. |
+| Status dot | `.sk-status-dot` + `.sk-status-{online,busy,away,offline}` | Tiny colored pulse for presence indicators. |
+| Tooltip | `.sk-tooltip` + `data-tooltip` | CSS-only hover tooltip, glassy frosted pill. |
+| Modal scaffold | `.sk-modal-backdrop` + `.sk-modal` | Backdrop-blur overlay + sized container. Compose with `.sk-antigrav-tile` or `.sk-holo-card`. |
+| Command palette | `.sk-cmdk` + `.sk-cmdk-{input,list,item,empty}` + `.sk-kbd` | **Interactive.** ⌘K modal with filter + keyboard nav. Needs JS. |
+| Marquee | `.sk-marquee` + `.sk-marquee-track` | Smooth horizontal scroll with edge-fade mask. Hover pauses. |
+| Divider | `.sk-divider` (+ `.sk-divider-aurora`) | Section divider — neutral hairline or aurora-tinted. |
+| Noise overlay | `.sk-noise-overlay` | Subtle SVG-grain layer for cinematic finish. Mount once on body. |
 | Pill button | `.sk-pill` (+ `.sk-pill-ghost`, `.sk-pill-holo`) | Three pill-shaped button variants. The holo one wraps a rotating rainbow ring. |
 | Slider | `.sk-slider` | Cross-browser styled `<input type="range">` with full-aurora track. |
 | Toggle | `.sk-toggle` | Pill-style on/off switch. Track gradients to aurora when checked. |

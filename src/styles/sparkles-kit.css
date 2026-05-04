@@ -1052,6 +1052,625 @@
 .sk-avatar-photo img { width: 100%; height: 100%; object-fit: cover; }
 
 /* ============================================================
+   11. Aurora text — static gradient text utility
+   ------------------------------------------------------------
+   <h1 class="sk-aurora-text">42</h1>
+   ============================================================ */
+.sk-aurora-text {
+  background: linear-gradient(
+    135deg,
+    var(--sk-peach), var(--sk-rose), var(--sk-violet),
+    var(--sk-indigo), var(--sk-mint), var(--sk-amber)
+  );
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  /* Edge anti-aliasing fix on some Safari builds */
+  display: inline-block;
+}
+
+/* ============================================================
+   12. Skeleton loader — shimmer wave for loading states
+   ------------------------------------------------------------
+   <div class="sk-skeleton" style="width:100%; height:16px;"></div>
+   ============================================================ */
+.sk-skeleton {
+  position: relative;
+  border-radius: 8px;
+  background: rgba(245, 241, 235, 0.05);
+  overflow: hidden;
+}
+
+.sk-skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(217, 119, 87, 0.10) 25%,
+    rgba(142, 127, 184, 0.18) 50%,
+    rgba(107, 141, 201, 0.10) 75%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: sk-skeleton-shimmer 1.6s ease-in-out infinite;
+}
+
+@keyframes sk-skeleton-shimmer {
+  0%   { background-position: -150% 0; }
+  100% { background-position:  150% 0; }
+}
+
+/* ============================================================
+   13. Progress bar — determinate + indeterminate
+   ------------------------------------------------------------
+   <div class="sk-progress">
+     <div class="sk-progress-fill" style="width: 60%"></div>
+   </div>
+
+   <div class="sk-progress sk-progress-indeterminate">
+     <div class="sk-progress-fill"></div>
+   </div>
+   ============================================================ */
+.sk-progress {
+  position: relative;
+  width: 100%;
+  height: 6px;
+  border-radius: 9999px;
+  background: rgba(245, 241, 235, 0.06);
+  overflow: hidden;
+}
+
+.sk-progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    var(--sk-peach), var(--sk-rose), var(--sk-violet),
+    var(--sk-indigo), var(--sk-mint), var(--sk-amber)
+  );
+  box-shadow: 0 0 10px rgba(217, 119, 87, 0.4);
+  transition: width 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sk-progress-indeterminate .sk-progress-fill {
+  width: 40%;
+  animation: sk-progress-slide 1.6s ease-in-out infinite;
+}
+
+@keyframes sk-progress-slide {
+  0%   { transform: translateX(-110%); }
+  100% { transform: translateX(260%); }
+}
+
+/* ============================================================
+   14. Form inputs — sk-input + sk-textarea with aurora focus
+   ------------------------------------------------------------
+   <input type="text" class="sk-input" placeholder="…" />
+   <textarea class="sk-textarea" placeholder="…"></textarea>
+   ============================================================ */
+.sk-input,
+.sk-textarea {
+  display: block;
+  width: 100%;
+  padding: 12px 14px;
+  background: rgba(20, 20, 19, 0.45);
+  border: 1px solid var(--sk-border-subtle);
+  border-radius: 12px;
+  color: var(--sk-text-primary);
+  font-family: var(--sk-font-mono, ui-monospace, "Geist Mono", monospace);
+  font-size: 14px;
+  line-height: 1.4;
+  outline: none;
+  transition: border-color 200ms ease-out, box-shadow 200ms ease-out, background 200ms ease-out;
+}
+
+.sk-input::placeholder,
+.sk-textarea::placeholder {
+  color: var(--sk-text-muted);
+}
+
+.sk-input:hover,
+.sk-textarea:hover {
+  border-color: rgba(245, 241, 235, 0.14);
+}
+
+.sk-input:focus,
+.sk-textarea:focus {
+  border-color: rgb(var(--sk-section-rgb));
+  box-shadow: 0 0 0 3px rgba(var(--sk-section-rgb), 0.22);
+  background: rgba(20, 20, 19, 0.6);
+}
+
+.sk-textarea {
+  min-height: 120px;
+  resize: vertical;
+  font-family: var(--sk-font-body, var(--sk-font-mono));
+}
+
+/* ============================================================
+   15. Marquee — smooth horizontal scroll with edge fade
+   ------------------------------------------------------------
+   <div class="sk-marquee">
+     <div class="sk-marquee-track">
+       <span>item 1</span><span>item 2</span>…
+       <!-- duplicate the items so the loop is seamless -->
+       <span>item 1</span><span>item 2</span>…
+     </div>
+   </div>
+   ============================================================ */
+.sk-marquee {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  -webkit-mask: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+          mask: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+}
+
+.sk-marquee-track {
+  display: inline-flex;
+  align-items: center;
+  gap: 48px;
+  white-space: nowrap;
+  animation: sk-marquee-scroll 28s linear infinite;
+  will-change: transform;
+}
+
+.sk-marquee:hover .sk-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes sk-marquee-scroll {
+  to { transform: translateX(-50%); }
+}
+
+/* ============================================================
+   16. Divider — subtle horizontal line, optional aurora flavor
+   ------------------------------------------------------------
+   <hr class="sk-divider" />
+   <hr class="sk-divider sk-divider-aurora" />
+   ============================================================ */
+.sk-divider {
+  height: 1px;
+  width: 100%;
+  border: 0;
+  margin: 24px 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--sk-border-subtle) 25%,
+    var(--sk-border-subtle) 75%,
+    transparent
+  );
+}
+
+.sk-divider-aurora {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(217, 119, 87, 0.4) 18%,
+    rgba(142, 127, 184, 0.4) 50%,
+    rgba(107, 141, 201, 0.4) 82%,
+    transparent
+  );
+}
+
+/* ============================================================
+   17. Status dot — colored pulse for online/busy/away/offline
+   ------------------------------------------------------------
+   <span class="sk-status-dot sk-status-online"></span>
+   ============================================================ */
+.sk-status-dot {
+  position: relative;
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--sk-text-muted);
+  vertical-align: middle;
+}
+
+.sk-status-online  { background: var(--sk-mint); }
+.sk-status-busy    { background: var(--sk-peach); }
+.sk-status-away    { background: var(--sk-amber); }
+.sk-status-offline { background: var(--sk-text-muted); }
+
+.sk-status-online::after,
+.sk-status-busy::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: inherit;
+  animation: sk-status-pulse 1.8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes sk-status-pulse {
+  0%, 100% { transform: scale(1);   opacity: 0.5; }
+  50%      { transform: scale(1.6); opacity: 0;   }
+}
+
+/* ============================================================
+   18. Stat tile — big number + label + optional trend arrow
+   ------------------------------------------------------------
+   <div class="sk-stat-tile">
+     <div class="sk-stat-label">monthly active</div>
+     <div class="sk-stat-value sk-aurora-text">12,400</div>
+     <div class="sk-stat-trend sk-stat-trend-up">↑ 18.4%</div>
+   </div>
+   ============================================================ */
+.sk-stat-tile {
+  border-radius: 16px;
+  padding: 24px;
+  background: rgba(20, 20, 19, 0.5);
+  border: 1px solid var(--sk-border-subtle);
+  isolation: isolate;
+}
+
+.sk-stat-label {
+  font-family: var(--sk-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--sk-text-secondary);
+  margin-bottom: 12px;
+}
+
+.sk-stat-value {
+  font-family: var(--sk-font-display, ui-sans-serif, "Geist", system-ui, sans-serif);
+  font-size: clamp(36px, 5vw, 56px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-weight: 500;
+}
+
+.sk-stat-trend {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--sk-font-mono);
+  font-size: 12px;
+  margin-top: 14px;
+}
+
+.sk-stat-trend-up   { color: var(--sk-mint); }
+.sk-stat-trend-down { color: var(--sk-peach); }
+
+/* ============================================================
+   19. Tooltip — CSS-only on hover via [data-tooltip]
+   ------------------------------------------------------------
+   <button class="sk-tooltip" data-tooltip="cmd-shift-p">⌘⇧P</button>
+   ============================================================ */
+.sk-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.sk-tooltip[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  padding: 6px 10px;
+  background: rgba(20, 20, 19, 0.92);
+  -webkit-backdrop-filter: blur(12px);
+          backdrop-filter: blur(12px);
+  border: 1px solid var(--sk-border-subtle);
+  border-radius: 8px;
+  font-family: var(--sk-font-mono);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  color: var(--sk-text-primary);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease-out, transform 200ms ease-out;
+  z-index: 100;
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(var(--sk-section-rgb), 0.15);
+}
+
+.sk-tooltip[data-tooltip]:hover::after,
+.sk-tooltip[data-tooltip]:focus-within::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ============================================================
+   20. Modal scaffold — backdrop-blur overlay + glass panel
+   ------------------------------------------------------------
+   <div class="sk-modal-backdrop" data-sk-modal>
+     <div class="sk-modal sk-antigrav-tile">…</div>
+   </div>
+
+   The backdrop handles the dim + blur; .sk-modal is just a sized
+   container. Compose with .sk-antigrav-tile or .sk-holo-card for
+   the visual treatment. Show/hide is handled by your code.
+   ============================================================ */
+.sk-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(10, 10, 10, 0.55);
+  -webkit-backdrop-filter: blur(8px);
+          backdrop-filter: blur(8px);
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.sk-modal {
+  max-width: 540px;
+  width: 100%;
+  max-height: 90vh;
+  overflow: auto;
+}
+
+/* ============================================================
+   21. Noise overlay — subtle grain layer for cinematic feel
+   ------------------------------------------------------------
+   <div class="sk-noise-overlay" aria-hidden="true"></div>
+
+   Mount once near the top of <body>. Drops grain across the whole
+   viewport via mix-blend-mode: overlay so it tints existing colors
+   rather than overlaying them.
+   ============================================================ */
+.sk-noise-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.025;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* ============================================================
+   22. Bento grid recipes
+   ------------------------------------------------------------
+   <div class="sk-bento sk-bento-3">…three tiles, hero + 2…</div>
+   <div class="sk-bento sk-bento-feature">
+     <div class="sk-bento-hero">…</div>
+     …other tiles…
+   </div>
+   ============================================================ */
+.sk-bento {
+  display: grid;
+  gap: 16px;
+}
+
+.sk-bento.sk-bento-2     { grid-template-columns: 1fr 1fr; }
+.sk-bento.sk-bento-3     { grid-template-columns: 2fr 1fr 1fr; }
+.sk-bento.sk-bento-4     { grid-template-columns: 2fr 1fr 1fr 1fr; }
+.sk-bento.sk-bento-2-2   { grid-template-columns: 1fr 1fr; grid-auto-rows: minmax(120px, auto); }
+.sk-bento.sk-bento-feature { grid-template-columns: repeat(4, 1fr); }
+.sk-bento.sk-bento-feature > .sk-bento-hero {
+  grid-column: span 2;
+  grid-row:    span 2;
+}
+
+@media (max-width: 720px) {
+  .sk-bento.sk-bento-3,
+  .sk-bento.sk-bento-4,
+  .sk-bento.sk-bento-feature {
+    grid-template-columns: 1fr;
+  }
+  .sk-bento.sk-bento-feature > .sk-bento-hero {
+    grid-column: 1; grid-row: auto;
+  }
+}
+
+/* ============================================================
+   23. Tabs — pill-style with current-tab highlight
+   ------------------------------------------------------------
+   <div class="sk-tabs" role="tablist">
+     <button class="sk-tab is-active" role="tab" aria-selected="true">overview</button>
+     <button class="sk-tab" role="tab">details</button>
+     <button class="sk-tab" role="tab">history</button>
+   </div>
+
+   The active tab gets a tinted background using the current
+   --sk-section-rgb. Section-aurora colors flow through.
+   ============================================================ */
+.sk-tabs {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  background: rgba(20, 20, 19, 0.4);
+  border: 1px solid var(--sk-border-subtle);
+  border-radius: 9999px;
+}
+
+.sk-tab {
+  padding: 8px 16px;
+  background: transparent;
+  border: none;
+  border-radius: 9999px;
+  font-family: var(--sk-font-mono);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: var(--sk-text-secondary);
+  cursor: pointer;
+  transition: color 200ms ease-out, background 200ms ease-out;
+  line-height: 1;
+}
+
+.sk-tab:hover { color: var(--sk-text-primary); }
+
+.sk-tab.is-active,
+.sk-tab[aria-selected="true"] {
+  color: var(--sk-text-primary);
+  background: rgba(var(--sk-section-rgb), 0.20);
+}
+
+/* ============================================================
+   24. Spotlight tile — mouse-tracked radial highlight
+   ------------------------------------------------------------
+   <div class="sk-spotlight-tile" data-sk-spotlight>…</div>
+
+   Needs sparkles-kit.js. The script attaches a mousemove handler
+   that sets --sk-mx / --sk-my (percentages) so the tile's ::before
+   spotlight follows the cursor.
+   ============================================================ */
+.sk-spotlight-tile {
+  position: relative;
+  border-radius: 18px;
+  padding: 28px;
+  background: var(--sk-bg-elevated);
+  border: 1px solid var(--sk-border-subtle);
+  overflow: hidden;
+  isolation: isolate;
+  transition: border-color 300ms ease-out;
+}
+
+.sk-spotlight-tile::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    400px circle at var(--sk-mx, 50%) var(--sk-my, 50%),
+    rgba(var(--sk-section-rgb), 0.22),
+    transparent 42%
+  );
+  opacity: 0;
+  transition: opacity 350ms ease-out;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.sk-spotlight-tile:hover {
+  border-color: rgba(var(--sk-section-rgb), 0.30);
+}
+
+.sk-spotlight-tile:hover::before { opacity: 1; }
+
+/* ============================================================
+   25. Tilt tile — 3D perspective tilt toward cursor
+   ------------------------------------------------------------
+   <div class="sk-tilt-tile" data-sk-tilt>…</div>
+
+   Needs sparkles-kit.js. Script tracks pointer relative to the
+   tile center and updates --sk-tilt-x / --sk-tilt-y (degrees).
+   ============================================================ */
+.sk-tilt-tile {
+  position: relative;
+  border-radius: 18px;
+  padding: 28px;
+  background: var(--sk-bg-elevated);
+  border: 1px solid var(--sk-border-subtle);
+  transform-style: preserve-3d;
+  transform:
+    perspective(900px)
+    rotateX(var(--sk-tilt-x, 0deg))
+    rotateY(var(--sk-tilt-y, 0deg));
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ============================================================
+   26. Command palette — ⌘K modal
+   ------------------------------------------------------------
+   <div class="sk-modal-backdrop" data-sk-cmdk-root hidden>
+     <div class="sk-cmdk">
+       <input class="sk-cmdk-input" placeholder="search…" data-sk-cmdk-input />
+       <ul class="sk-cmdk-list" data-sk-cmdk-list>
+         <li class="sk-cmdk-item">
+           <span>Open project</span>
+           <kbd class="sk-kbd">⌘O</kbd>
+         </li>
+         …
+       </ul>
+     </div>
+   </div>
+
+   sparkles-kit.js wires up: ⌘K to open, Esc to close, fuzzy filter
+   on input, ↑↓ to navigate, ↵ to confirm.
+   ============================================================ */
+.sk-cmdk {
+  width: 100%;
+  max-width: 580px;
+  border-radius: 16px;
+  background: rgba(20, 20, 19, 0.85);
+  -webkit-backdrop-filter: blur(20px);
+          backdrop-filter: blur(20px);
+  border: 1px solid var(--sk-border-subtle);
+  overflow: hidden;
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(var(--sk-section-rgb), 0.10);
+}
+
+.sk-cmdk-input {
+  display: block;
+  width: 100%;
+  padding: 18px 22px;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--sk-border-subtle);
+  color: var(--sk-text-primary);
+  font-family: var(--sk-font-mono);
+  font-size: 15px;
+  outline: none;
+}
+
+.sk-cmdk-input::placeholder { color: var(--sk-text-muted); }
+
+.sk-cmdk-list {
+  max-height: 320px;
+  overflow-y: auto;
+  padding: 8px;
+  list-style: none;
+  margin: 0;
+}
+
+.sk-cmdk-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  color: var(--sk-text-secondary);
+  transition: background 150ms ease-out, color 150ms ease-out;
+}
+
+.sk-cmdk-item:hover,
+.sk-cmdk-item.is-active,
+.sk-cmdk-item[aria-selected="true"] {
+  background: rgba(var(--sk-section-rgb), 0.14);
+  color: var(--sk-text-primary);
+}
+
+.sk-cmdk-empty {
+  padding: 24px;
+  text-align: center;
+  color: var(--sk-text-muted);
+  font-family: var(--sk-font-mono);
+  font-size: 13px;
+}
+
+/* Keyboard-key chip — looks great inside cmdk-item or anywhere */
+.sk-kbd {
+  display: inline-block;
+  padding: 2px 6px;
+  font-family: var(--sk-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  color: var(--sk-text-secondary);
+  background: rgba(245, 241, 235, 0.06);
+  border: 1px solid var(--sk-border-subtle);
+  border-radius: 5px;
+  line-height: 1.4;
+  vertical-align: middle;
+}
+
+/* ============================================================
    10. Reduced motion — respect users who don't want spinning
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {
@@ -1073,7 +1692,15 @@
   .sk-antigrav-tile::before,
   .sk-antigrav-tile::after,
   .sk-color-spill.sk-spill-drift,
+  .sk-skeleton::after,
+  .sk-progress-indeterminate .sk-progress-fill,
+  .sk-marquee-track,
+  .sk-status-online::after,
+  .sk-status-busy::after,
   .sk-avatar-ring {
     animation: none !important;
+  }
+  .sk-tilt-tile {
+    transform: none !important;
   }
 }

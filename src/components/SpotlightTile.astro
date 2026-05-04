@@ -1,0 +1,15 @@
+---
+interface Props {
+  as?: 'div' | 'a';
+  href?: string;
+  class?: string;
+}
+
+const { as = 'div', href, class: className = '' } = Astro.props;
+const Tag = as;
+const classes = ['sk-spotlight-tile', className].filter(Boolean).join(' ');
+---
+
+<Tag class={classes} href={href} data-sk-spotlight>
+  <slot />
+</Tag>

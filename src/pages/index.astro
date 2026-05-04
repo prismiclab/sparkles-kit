@@ -6,6 +6,16 @@ import PrismTile from '../components/PrismTile.astro';
 import PuttyBlob from '../components/PuttyBlob.astro';
 import AntigravTile from '../components/AntigravTile.astro';
 import ColorSpill from '../components/ColorSpill.astro';
+import AuroraText from '../components/AuroraText.astro';
+import SpotlightTile from '../components/SpotlightTile.astro';
+import TiltTile from '../components/TiltTile.astro';
+import StatTile from '../components/StatTile.astro';
+import Tabs from '../components/Tabs.astro';
+import Progress from '../components/Progress.astro';
+import Skeleton from '../components/Skeleton.astro';
+import StatusDot from '../components/StatusDot.astro';
+import Tooltip from '../components/Tooltip.astro';
+import Marquee from '../components/Marquee.astro';
 import PillButton from '../components/PillButton.astro';
 import HoloSlider from '../components/HoloSlider.astro';
 import HoloToggle from '../components/HoloToggle.astro';
@@ -460,6 +470,422 @@ import CodeBlock from '../components/CodeBlock.astro';
 </div>`} />
 
     {/* ============================================================ */}
+    {/* Aurora text                                                   */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Aurora text</h2>
+    <p class="site-section-note">
+      Static aurora-gradient text utility. Complements the
+      slowly-rotating <code>.sk-aurora-line</code> shimmer — use this
+      for big stat numbers, hero accents, or anywhere you want a
+      single static rainbow tint on text.
+    </p>
+    <div class="site-demo">
+      <span style="font-family: var(--font-display); font-size: clamp(48px, 8vw, 96px); letter-spacing: -0.03em; font-weight: 500;">
+        <AuroraText>infinity.</AuroraText>
+      </span>
+    </div>
+    <CodeBlock code={`<h1 class="sk-aurora-text">infinity.</h1>`} />
+
+    {/* ============================================================ */}
+    {/* Spotlight tile                                                */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Spotlight tile</h2>
+    <p class="site-section-note">
+      Cursor-tracked radial highlight. Hover over the tile and the
+      glow follows your pointer. Needs <code>sparkles-kit.js</code> —
+      the script sets <code>--sk-mx</code> / <code>--sk-my</code> on
+      <code>pointermove</code>.
+    </p>
+    <div class="site-grid-2" style="margin-bottom: 12px;">
+      <SpotlightTile>
+        <p class="site-eyebrow">/ sk-spotlight-tile</p>
+        <h3 style="font-family: var(--font-display); font-size: 22px; margin: 8px 0; letter-spacing: -0.015em;">
+          Hover to spotlight.
+        </h3>
+        <p style="color: var(--sk-text-secondary); font-size: 14px; line-height: 1.6;">
+          Move your cursor — the glow follows. The tile border also
+          warms up in the section accent color.
+        </p>
+      </SpotlightTile>
+      <SpotlightTile>
+        <p class="site-eyebrow">/ same primitive</p>
+        <h3 style="font-family: var(--font-display); font-size: 22px; margin: 8px 0; letter-spacing: -0.015em;">
+          One per pricing card.
+        </h3>
+        <p style="color: var(--sk-text-secondary); font-size: 14px; line-height: 1.6;">
+          The Vercel/Linear pricing-card move. Cheap visual, big
+          payoff.
+        </p>
+      </SpotlightTile>
+    </div>
+    <CodeBlock code={`<div class="sk-spotlight-tile" data-sk-spotlight>
+  …content…
+</div>`} />
+
+    {/* ============================================================ */}
+    {/* Tilt tile                                                     */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Tilt tile</h2>
+    <p class="site-section-note">
+      3D perspective tilt toward the cursor. Stripe pricing-card
+      flavor. <code>data-sk-tilt-max</code> caps the tilt in degrees
+      (default 8). Needs <code>sparkles-kit.js</code>.
+    </p>
+    <div class="site-grid-2" style="margin-bottom: 12px;">
+      <TiltTile>
+        <p class="site-eyebrow">/ sk-tilt-tile</p>
+        <h3 style="font-family: var(--font-display); font-size: 22px; margin: 8px 0; letter-spacing: -0.015em;">
+          Lean toward me.
+        </h3>
+        <p style="color: var(--sk-text-secondary); font-size: 14px; line-height: 1.6;">
+          The tile rotates ±8° on each axis based on cursor position.
+          On <code>pointerleave</code> it springs back flat.
+        </p>
+      </TiltTile>
+      <TiltTile max={14}>
+        <p class="site-eyebrow">/ data-sk-tilt-max="14"</p>
+        <h3 style="font-family: var(--font-display); font-size: 22px; margin: 8px 0; letter-spacing: -0.015em;">
+          Steeper tilt.
+        </h3>
+        <p style="color: var(--sk-text-secondary); font-size: 14px; line-height: 1.6;">
+          ±14°. Use sparingly — too much past 16° starts to read as
+          rubbery rather than 3D.
+        </p>
+      </TiltTile>
+    </div>
+    <CodeBlock code={`<div class="sk-tilt-tile" data-sk-tilt>…</div>
+
+<div class="sk-tilt-tile" data-sk-tilt data-sk-tilt-max="14">…</div>`} />
+
+    {/* ============================================================ */}
+    {/* Stat tile                                                     */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Stat tile</h2>
+    <p class="site-section-note">
+      Big number + small label + optional trend arrow. Composes
+      <code>.sk-aurora-text</code> for the value gradient.
+    </p>
+    <div class="site-grid-3" style="margin-bottom: 12px;">
+      <StatTile label="monthly active" value="12,400" trend="up" trendText="18.4% week-on-week" />
+      <StatTile label="median latency" value="42ms" trend="down" trendText="12% faster" />
+      <StatTile label="uptime · 30d" value="99.97%" />
+    </div>
+    <CodeBlock code={`<div class="sk-stat-tile">
+  <div class="sk-stat-label">monthly active</div>
+  <div class="sk-stat-value sk-aurora-text">12,400</div>
+  <div class="sk-stat-trend sk-stat-trend-up">↑ 18.4% week-on-week</div>
+</div>`} />
+
+    {/* ============================================================ */}
+    {/* Bento layouts                                                 */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Bento layouts</h2>
+    <p class="site-section-note">
+      Predefined grid recipes so you don't retype
+      <code>grid-template-columns: 2fr 1fr 1fr</code> every time.
+      <code>.sk-bento-3</code> = hero + 2 supports.
+      <code>.sk-bento-feature</code> = 2×2 hero + 4 cells.
+      Auto-collapses to 1 column on mobile.
+    </p>
+    <div class="sk-bento sk-bento-feature" style="margin-bottom: 16px;">
+      <SpotlightTile class="sk-bento-hero">
+        <p class="site-eyebrow">001 / hero</p>
+        <h3 style="font-family: var(--font-display); font-size: 24px; margin: 8px 0; letter-spacing: -0.02em;">
+          Bento + spotlight stack.
+        </h3>
+        <p style="color: var(--sk-text-secondary); font-size: 14px; line-height: 1.6;">
+          Mix primitives freely. The hero spans 2×2; supporting tiles
+          fill the remaining cells.
+        </p>
+      </SpotlightTile>
+      <StatTile label="signups" value="3.2k" trend="up" trendText="6.1%" />
+      <StatTile label="errors" value="0.04%" trend="down" trendText="0.5%" />
+      <StatTile label="p99" value="118ms" />
+      <StatTile label="active" value="247" />
+    </div>
+    <CodeBlock code={`<div class="sk-bento sk-bento-feature">
+  <div class="sk-bento-hero sk-spotlight-tile" data-sk-spotlight>
+    …hero content…
+  </div>
+  <div class="sk-stat-tile">…</div>
+  <div class="sk-stat-tile">…</div>
+  <div class="sk-stat-tile">…</div>
+  <div class="sk-stat-tile">…</div>
+</div>`} />
+
+    {/* ============================================================ */}
+    {/* Tabs                                                          */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Tabs</h2>
+    <p class="site-section-note">
+      Pill-style tabs — the active tab gets a tinted background using
+      the live <code>--sk-section-rgb</code>, so as the page accent
+      shifts, the active state shifts with it.
+    </p>
+    <div class="site-demo">
+      <Tabs tabs={[
+        { label: 'overview', active: true },
+        { label: 'details' },
+        { label: 'history' },
+      ]} />
+    </div>
+    <CodeBlock code={`<div class="sk-tabs" role="tablist">
+  <button class="sk-tab is-active" role="tab" aria-selected="true">overview</button>
+  <button class="sk-tab" role="tab">details</button>
+  <button class="sk-tab" role="tab">history</button>
+</div>`} />
+
+    {/* ============================================================ */}
+    {/* Form inputs                                                   */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Form inputs</h2>
+    <p class="site-section-note">
+      Text input + textarea with aurora focus rings. Click into one
+      and watch the border + glow shift to the section accent.
+    </p>
+    <div class="site-demo" style="flex-direction: column; align-items: stretch; gap: 16px;">
+      <input type="text" class="sk-input" placeholder="cmd-shift-name" />
+      <textarea class="sk-textarea" placeholder="anything you want, multi-line and resizable…"></textarea>
+    </div>
+    <CodeBlock code={`<input type="text" class="sk-input" placeholder="…" />
+<textarea class="sk-textarea" placeholder="…"></textarea>`} />
+
+    {/* ============================================================ */}
+    {/* Progress                                                      */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Progress</h2>
+    <p class="site-section-note">
+      Aurora-filled progress bar. Determinate (set width) or
+      indeterminate (the fill slides infinitely).
+    </p>
+    <div class="site-demo" style="flex-direction: column; align-items: stretch; gap: 24px;">
+      <Progress value={32} />
+      <Progress value={68} />
+      <Progress indeterminate />
+    </div>
+    <CodeBlock code={`<div class="sk-progress">
+  <div class="sk-progress-fill" style="width: 68%"></div>
+</div>
+
+<div class="sk-progress sk-progress-indeterminate">
+  <div class="sk-progress-fill"></div>
+</div>`} />
+
+    {/* ============================================================ */}
+    {/* Skeleton loader                                               */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Skeleton loader</h2>
+    <p class="site-section-note">
+      Loading-state placeholder with an aurora shimmer wave. Set
+      width + height inline to match whatever's loading underneath.
+    </p>
+    <div class="site-demo" style="flex-direction: column; align-items: stretch; gap: 12px; max-width: 420px; margin-left: auto; margin-right: auto;">
+      <Skeleton height="22px" width="60%" />
+      <Skeleton height="14px" />
+      <Skeleton height="14px" width="80%" />
+      <Skeleton height="14px" width="40%" />
+    </div>
+    <CodeBlock code={`<div class="sk-skeleton" style="width: 60%; height: 22px"></div>
+<div class="sk-skeleton" style="height: 14px"></div>`} />
+
+    {/* ============================================================ */}
+    {/* Status dot                                                    */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Status dot</h2>
+    <p class="site-section-note">
+      Tiny colored dot for online/busy/away/offline. The first two
+      pulse; the others stay still. Compose inline next to a name or
+      a service label.
+    </p>
+    <div class="site-demo" style="gap: 32px;">
+      <span style="font-family: var(--font-mono); font-size: 14px; color: var(--sk-text-primary);">
+        <StatusDot status="online" /> · online
+      </span>
+      <span style="font-family: var(--font-mono); font-size: 14px; color: var(--sk-text-primary);">
+        <StatusDot status="busy" /> · busy
+      </span>
+      <span style="font-family: var(--font-mono); font-size: 14px; color: var(--sk-text-primary);">
+        <StatusDot status="away" /> · away
+      </span>
+      <span style="font-family: var(--font-mono); font-size: 14px; color: var(--sk-text-primary);">
+        <StatusDot status="offline" /> · offline
+      </span>
+    </div>
+    <CodeBlock code={`<span class="sk-status-dot sk-status-online"></span>
+<span class="sk-status-dot sk-status-busy"></span>
+<span class="sk-status-dot sk-status-away"></span>
+<span class="sk-status-dot sk-status-offline"></span>`} />
+
+    {/* ============================================================ */}
+    {/* Tooltip                                                       */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Tooltip</h2>
+    <p class="site-section-note">
+      CSS-only tooltip via <code>data-tooltip</code>. Glassy frosted
+      pill above the element, fades in on hover or focus.
+    </p>
+    <div class="site-demo" style="gap: 16px;">
+      <Tooltip text="opens the command palette">
+        <button class="sk-pill sk-pill-ghost">⌘K</button>
+      </Tooltip>
+      <Tooltip text="hover/focus me — no JS needed">
+        <button class="sk-pill sk-pill-holo">try it</button>
+      </Tooltip>
+    </div>
+    <CodeBlock code={`<button class="sk-tooltip" data-tooltip="opens the command palette">⌘K</button>`} />
+
+    {/* ============================================================ */}
+    {/* Modal scaffold                                                */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Modal scaffold</h2>
+    <p class="site-section-note">
+      Backdrop-blurred overlay + a sized container. Compose with
+      <code>.sk-antigrav-tile</code> or <code>.sk-holo-card</code>
+      for the panel visual. Show/hide is yours to wire (or use a
+      <code>&lt;dialog&gt;</code> element).
+    </p>
+    <div class="site-demo" style="position: relative; min-height: 280px; padding: 0;">
+      {/* inline preview, not actually toggleable */}
+      <div style="position: absolute; inset: 0; background: rgba(10,10,10,0.55); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); display: grid; place-items: center; padding: 24px;">
+        <div class="sk-modal sk-antigrav-tile">
+          <p class="site-eyebrow">/ sk-modal . sk-antigrav-tile</p>
+          <h3 style="font-family: var(--font-display); font-size: 22px; margin: 8px 0; letter-spacing: -0.015em;">
+            Floating dialog.
+          </h3>
+          <p style="color: var(--sk-text-secondary); font-size: 14px; line-height: 1.6; margin-bottom: 16px;">
+            Backdrop blurs the page behind. The modal panel is just
+            an antigrav tile — same primitive, different mounting.
+          </p>
+          <button class="sk-pill sk-pill-ghost">close</button>
+        </div>
+      </div>
+    </div>
+    <CodeBlock code={`<div class="sk-modal-backdrop" data-sk-modal>
+  <div class="sk-modal sk-antigrav-tile">
+    …content…
+    <button class="sk-pill sk-pill-ghost">close</button>
+  </div>
+</div>`} />
+
+    {/* ============================================================ */}
+    {/* Command palette                                               */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Command palette · ⌘K</h2>
+    <p class="site-section-note">
+      The Raycast / Linear / VS Code move. Press <code>⌘K</code> (or
+      <code>Ctrl+K</code>) anywhere on this page to open it. Type to
+      filter, <code>↑↓</code> to navigate, <code>↵</code> to confirm,
+      <code>Esc</code> to close. Needs <code>sparkles-kit.js</code>.
+    </p>
+    <div class="site-demo" style="position: relative; min-height: 340px; padding: 0; overflow: visible;">
+      {/* Inline preview — visible all the time so users see the visual.
+          The actual ⌘K-toggleable one is mounted at the bottom of the page. */}
+      <div style="background: rgba(10,10,10,0.55); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border-radius: 18px; display: grid; place-items: center; padding: 32px; width: 100%;">
+        <div class="sk-cmdk">
+          <input class="sk-cmdk-input" placeholder="search commands…" value="" disabled />
+          <ul class="sk-cmdk-list">
+            <li class="sk-cmdk-item is-active">
+              <span>Open project</span>
+              <kbd class="sk-kbd">⌘O</kbd>
+            </li>
+            <li class="sk-cmdk-item">
+              <span>Find in files</span>
+              <kbd class="sk-kbd">⌘F</kbd>
+            </li>
+            <li class="sk-cmdk-item">
+              <span>Toggle terminal</span>
+              <kbd class="sk-kbd">⌃`</kbd>
+            </li>
+            <li class="sk-cmdk-item">
+              <span>Switch theme</span>
+              <kbd class="sk-kbd">⌘T</kbd>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <p class="site-section-note">
+      <strong>Press ⌘K now</strong> — a working palette is mounted at the
+      bottom of this page; it'll pop up over the content.
+    </p>
+
+    <CodeBlock code={`<!-- once per page; sparkles-kit.js wires up ⌘K, ↑↓, ↵, Esc -->
+<div class="sk-modal-backdrop" data-sk-cmdk-root hidden>
+  <div class="sk-cmdk">
+    <input class="sk-cmdk-input" data-sk-cmdk-input
+           placeholder="search commands…" />
+    <ul class="sk-cmdk-list" data-sk-cmdk-list>
+      <li class="sk-cmdk-item">
+        <span>Open project</span>
+        <kbd class="sk-kbd">⌘O</kbd>
+      </li>
+      …
+    </ul>
+  </div>
+</div>`} />
+
+    {/* ============================================================ */}
+    {/* Marquee                                                       */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Marquee</h2>
+    <p class="site-section-note">
+      Smooth horizontal scroll for a "trusted by" / "features" row.
+      Edge-faded both sides via mask. Hover pauses the animation.
+      Duplicate the items inside the track for a seamless loop.
+    </p>
+    <div class="site-demo" style="padding: 24px 0;">
+      <Marquee>
+        <span style="font-family: var(--font-display); font-size: 22px; color: var(--sk-text-secondary); padding: 0 24px;">linear</span>
+        <span style="font-family: var(--font-display); font-size: 22px; color: var(--sk-text-secondary); padding: 0 24px;">vercel</span>
+        <span style="font-family: var(--font-display); font-size: 22px; color: var(--sk-text-secondary); padding: 0 24px;">raycast</span>
+        <span style="font-family: var(--font-display); font-size: 22px; color: var(--sk-text-secondary); padding: 0 24px;">supabase</span>
+        <span style="font-family: var(--font-display); font-size: 22px; color: var(--sk-text-secondary); padding: 0 24px;">arc</span>
+        <span style="font-family: var(--font-display); font-size: 22px; color: var(--sk-text-secondary); padding: 0 24px;">railway</span>
+        {/* duplicated for seamless loop */}
+        <span style="font-family: var(--font-display); font-size: 22px; color: var(--sk-text-secondary); padding: 0 24px;">linear</span>
+        <span style="font-family: var(--font-display); font-size: 22px; color: var(--sk-text-secondary); padding: 0 24px;">vercel</span>
+        <span style="font-family: var(--font-display); font-size: 22px; color: var(--sk-text-secondary); padding: 0 24px;">raycast</span>
+        <span style="font-family: var(--font-display); font-size: 22px; color: var(--sk-text-secondary); padding: 0 24px;">supabase</span>
+        <span style="font-family: var(--font-display); font-size: 22px; color: var(--sk-text-secondary); padding: 0 24px;">arc</span>
+        <span style="font-family: var(--font-display); font-size: 22px; color: var(--sk-text-secondary); padding: 0 24px;">railway</span>
+      </Marquee>
+    </div>
+    <CodeBlock code={`<div class="sk-marquee">
+  <div class="sk-marquee-track">
+    <span>item 1</span><span>item 2</span><span>item 3</span>
+    <!-- duplicate for seamless loop -->
+    <span>item 1</span><span>item 2</span><span>item 3</span>
+  </div>
+</div>`} />
+
+    {/* ============================================================ */}
+    {/* Divider                                                       */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Divider</h2>
+    <p class="site-section-note">
+      Section divider — neutral hairline, or aurora-tinted.
+    </p>
+    <div class="site-demo" style="flex-direction: column; align-items: stretch; gap: 36px;">
+      <hr class="sk-divider" />
+      <hr class="sk-divider sk-divider-aurora" />
+    </div>
+    <CodeBlock code={`<hr class="sk-divider" />
+<hr class="sk-divider sk-divider-aurora" />`} />
+
+    {/* ============================================================ */}
+    {/* Noise overlay                                                 */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Noise overlay</h2>
+    <p class="site-section-note">
+      Subtle SVG-grain layer that tints the whole viewport via
+      <code>mix-blend-mode: overlay</code>. Adds a faint cinematic
+      texture that prevents the dark base from looking flat. Mount
+      once near the top of <code>&lt;body&gt;</code>.
+    </p>
+    <CodeBlock code={`<div class="sk-noise-overlay" aria-hidden="true"></div>`} />
+
+    {/* ============================================================ */}
     {/* Customizing                                                   */}
     {/* ============================================================ */}
     <h2 class="site-h2">Customizing</h2>
@@ -500,4 +926,49 @@ import CodeBlock from '../components/CodeBlock.astro';
       </span>
     </footer>
   </main>
+
+  {/* ============================================================ */}
+  {/* Live ⌘K command palette — sparkles-kit.js wires up the toggle */}
+  {/* ============================================================ */}
+  <div class="sk-modal-backdrop" data-sk-cmdk-root hidden>
+    <div class="sk-cmdk">
+      <input
+        class="sk-cmdk-input"
+        data-sk-cmdk-input
+        placeholder="search commands…"
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <ul class="sk-cmdk-list" data-sk-cmdk-list>
+        <li class="sk-cmdk-item is-active">
+          <span>Open project</span>
+          <kbd class="sk-kbd">⌘O</kbd>
+        </li>
+        <li class="sk-cmdk-item">
+          <span>Find in files</span>
+          <kbd class="sk-kbd">⌘F</kbd>
+        </li>
+        <li class="sk-cmdk-item">
+          <span>Toggle terminal</span>
+          <kbd class="sk-kbd">⌃`</kbd>
+        </li>
+        <li class="sk-cmdk-item">
+          <span>Switch theme</span>
+          <kbd class="sk-kbd">⌘T</kbd>
+        </li>
+        <li class="sk-cmdk-item">
+          <span>Sparkles preferences</span>
+          <kbd class="sk-kbd">⌘,</kbd>
+        </li>
+        <li class="sk-cmdk-item">
+          <span>Bento layout: feature</span>
+          <kbd class="sk-kbd">⌘B</kbd>
+        </li>
+        <li class="sk-cmdk-item">
+          <span>Toggle aurora</span>
+          <kbd class="sk-kbd">⌘A</kbd>
+        </li>
+      </ul>
+    </div>
+  </div>
 </BaseLayout>

@@ -1,0 +1,13 @@
+---
+interface Props {
+  as?: string;
+  class?: string;
+}
+
+const { as = 'span', class: className = '' } = Astro.props;
+const Tag = as;
+---
+
+<Tag class={`sk-aurora-text ${className}`.trim()}>
+  <slot />
+</Tag>

@@ -1,0 +1,17 @@
+---
+interface Props {
+  value?: number;
+  indeterminate?: boolean;
+  class?: string;
+}
+
+const { value = 0, indeterminate = false, class: className = '' } = Astro.props;
+const wrapClasses = ['sk-progress', indeterminate ? 'sk-progress-indeterminate' : '', className]
+  .filter(Boolean).join(' ');
+const fillStyle = indeterminate ? '' : `width: ${Math.max(0, Math.min(100, value))}%`;
+---
+
+<div class={wrapClasses} role="progressbar"
+     aria-valuemin="0" aria-valuemax="100" aria-valuenow={indeterminate ? undefined : value}>
+  <div class="sk-progress-fill" style={fillStyle}></div>
+</div>

@@ -1,0 +1,34 @@
+---
+interface Props {
+  label: string;
+  value: string;
+  trend?: 'up' | 'down';
+  trendText?: string;
+  aurora?: boolean;
+  class?: string;
+}
+
+const {
+  label,
+  value,
+  trend,
+  trendText,
+  aurora = true,
+  class: className = '',
+} = Astro.props;
+
+const valueClasses = ['sk-stat-value', aurora ? 'sk-aurora-text' : ''].filter(Boolean).join(' ');
+const trendClasses = trend
+  ? ['sk-stat-trend', trend === 'up' ? 'sk-stat-trend-up' : 'sk-stat-trend-down'].join(' ')
+  : '';
+---
+
+<div class={`sk-stat-tile ${className}`.trim()}>
+  <div class="sk-stat-label">{label}</div>
+  <div class={valueClasses}>{value}</div>
+  {trend && trendText && (
+    <div class={trendClasses}>
+      {trend === 'up' ? '↑' : '↓'} {trendText}
+    </div>
+  )}
+</div>
