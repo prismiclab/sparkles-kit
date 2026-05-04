@@ -22,8 +22,7 @@ Distilled from the look on [nicowyss.ch](https://nicowyss.ch) and [wyss.cx](http
 | Holo panel | `.sk-holo-panel` | Lighter card variant — no border ring, just a soft conic bloom on hover. |
 | Prism tile | `.sk-prism-tile` (+ `.sk-prism-sweep`, `.sk-prism-festival`) | Holographic-foil background — diagonal aurora stripe, caustic glints, conic edge. Festival flavor crosses a second stripe. |
 | Putty blob | `.sk-putty-blob` (+ `.sk-putty-aurora`) | Morphing blob shape — animated border-radius, glossy highlight + shadow, glitter sub-layer. Emerald or aurora palette. |
-| Fiber burst | `.sk-fiber-burst` + many `.sk-fiber` | Decorative fiber-optic spray — radial fibers pulse on randomized clocks with bright tips. Static. |
-| Glow stick | `.sk-glow-stick` + handle/tip + `.sk-fiber` fan | **Interactive.** Grab and drag with the cursor; fast motion triggers a `.shaking` state. Needs `sparkles-kit.js`. |
+| Antigravity tile | `.sk-antigrav-tile` | Floating glass — aurora underglow, glossy top edge, drifting particles inside, idle bob, hover-lift. |
 | Pill button | `.sk-pill` (+ `.sk-pill-ghost`, `.sk-pill-holo`) | Three pill-shaped button variants. The holo one wraps a rotating rainbow ring. |
 | Slider | `.sk-slider` | Cross-browser styled `<input type="range">` with full-aurora track. |
 | Toggle | `.sk-toggle` | Pill-style on/off switch. Track gradients to aurora when checked. |
@@ -121,6 +120,17 @@ Holographic-foil flavor. Three variants — pick by how loud you want it.
 <div class="sk-prism-tile sk-prism-festival">…festival energy…</div>
 ```
 
+### Antigravity tile
+
+Floating glass panel. Aurora underglow, glossy top-edge highlight, particles drifting upward inside the tile, idle ~3px bob, hover lifts to 8px.
+
+```html
+<div class="sk-antigrav-tile">
+  <h3>Suspended.</h3>
+  <p>Bottom-up aurora wash + drifting particles.</p>
+</div>
+```
+
 ### Putty blob
 
 Morphing glitter blob. Inspired by emerald "smart putty". Two flavors:
@@ -132,43 +142,6 @@ Morphing glitter blob. Inspired by emerald "smart putty". Two flavors:
 
 You can resize via inline `style="width: 320px"` — the aspect-ratio is locked to 1:1 so height follows.
 
-### Fiber burst
-
-Radial fiber-optic spray. Each fiber needs `--sk-rot`, `--sk-c`, and (optionally) `--sk-pulse-dur` and `--sk-delay`. The Astro `<FiberBurst count={48} />` component generates them deterministically at build time. Vanilla pattern:
-
-```html
-<div class="sk-fiber-burst">
-  <span class="sk-fiber" style="--sk-rot:   0deg; --sk-c:#D97757; --sk-delay:-0.3s"></span>
-  <span class="sk-fiber" style="--sk-rot:  30deg; --sk-c:#C5759A; --sk-delay:-1.7s"></span>
-  <span class="sk-fiber" style="--sk-rot:  60deg; --sk-c:#8E7FB8; --sk-delay:-2.4s"></span>
-  <!-- ... evenly spread rotations, e.g. 48 fibers × 7.5° each ... -->
-</div>
-```
-
-For density, 36-72 fibers reads well. The bright tip dot is on the `.sk-fiber::after` pseudo-element — no extra markup needed.
-
-### Glow stick (interactive)
-
-The only primitive in the kit that uses runtime JavaScript. Click-hold drags the stick to follow the cursor; rapid motion triggers a `.shaking` class that brightens + blurs the fibers; release and it springs back upright. Pointer events, so touch screens work the same way.
-
-```html
-<!-- once per page -->
-<script src="/sparkles-kit.js" defer></script>
-
-<!-- per stick -->
-<div class="sk-glow-stick" data-sk-glow-stick style="width:22px; height:200px;">
-  <div class="sk-glow-stick-handle"></div>
-  <div class="sk-glow-stick-tip">
-    <span class="sk-fiber" style="--sk-rot:115deg; --sk-c:#D97757"></span>
-    <span class="sk-fiber" style="--sk-rot:130deg; --sk-c:#C5759A"></span>
-    <!-- fan rotations 115°..245° (180° = straight up) -->
-  </div>
-</div>
-```
-
-Astro: `<GlowStick count={11} spread={140} height={200} seed={7331} />` generates the markup.
-
-`sparkles-kit.js` auto-initializes on `DOMContentLoaded` and exposes `window.sparklesKit.initGlowSticks(scope?)` for re-init after dynamic DOM updates. The script is ~80 lines, no dependencies, IIFE — drops into any page including ones using React/Vue/Svelte.
 
 ### Pill button
 

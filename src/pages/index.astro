@@ -4,8 +4,7 @@ import HoloCard from '../components/HoloCard.astro';
 import HoloPanel from '../components/HoloPanel.astro';
 import PrismTile from '../components/PrismTile.astro';
 import PuttyBlob from '../components/PuttyBlob.astro';
-import FiberBurst from '../components/FiberBurst.astro';
-import GlowStick from '../components/GlowStick.astro';
+import AntigravTile from '../components/AntigravTile.astro';
 import PillButton from '../components/PillButton.astro';
 import HoloSlider from '../components/HoloSlider.astro';
 import HoloToggle from '../components/HoloToggle.astro';
@@ -263,62 +262,42 @@ import CodeBlock from '../components/CodeBlock.astro';
 <div class="sk-putty-blob sk-putty-aurora"></div>`} />
 
     {/* ============================================================ */}
-    {/* Fiber burst                                                   */}
+    {/* Antigravity tile                                              */}
     {/* ============================================================ */}
-    <h2 class="site-h2">Fiber burst</h2>
+    <h2 class="site-h2">Antigravity tile</h2>
     <p class="site-section-note">
-      Decorative fiber-optic spray — dozens of thin fibers radiate from
-      a center point, each pulsing on its own randomized clock with a
-      bright tip. Use the <code>&lt;FiberBurst /&gt;</code> Astro component
-      for build-time generation, or paste the markup pattern from the
-      README and tune <code>--sk-rot</code>, <code>--sk-c</code>, and
-      <code>--sk-delay</code> per fiber.
+      Reads as suspended in zero-g. Deep lifted shadow, glossy hairline
+      at the top edge (glass catching light), aurora underglow welling
+      up from below the tile, and tiny particles drifting upward inside.
+      The tile bobs ~3px at rest; hover lifts it 8px and intensifies
+      the underglow.
     </p>
 
-    <div class="site-demo" style="gap: 48px;">
-      <FiberBurst count={48} />
-      <FiberBurst count={72} size={200} seed={9081} />
+    <div class="site-grid-2" style="gap: 24px; margin-bottom: 16px;">
+      <AntigravTile>
+        <p class="site-eyebrow">/ sk-antigrav-tile</p>
+        <h3 style="font-family: var(--font-display); font-size: 22px; margin: 8px 0; letter-spacing: -0.015em;">
+          Suspended.
+        </h3>
+        <p style="color: var(--sk-text-secondary); font-size: 14px; line-height: 1.6;">
+          Bottom-up aurora wash + drifting particles + a deep
+          shadow that stays put while the tile floats.
+        </p>
+      </AntigravTile>
+
+      <AntigravTile>
+        <p class="site-eyebrow">/ same primitive</p>
+        <h3 style="font-family: var(--font-display); font-size: 22px; margin: 8px 0; letter-spacing: -0.015em;">
+          Hover lifts it.
+        </h3>
+        <p style="color: var(--sk-text-secondary); font-size: 14px; line-height: 1.6;">
+          On hover, the bob pauses, the tile rises 8px, and the
+          underglow doubles in intensity. Subtle but unmistakable.
+        </p>
+      </AntigravTile>
     </div>
 
-    <CodeBlock code={`<div class="sk-fiber-burst">
-  <span class="sk-fiber" style="--sk-rot:   0deg; --sk-c:#D97757; --sk-delay:-0.3s"></span>
-  <span class="sk-fiber" style="--sk-rot:  30deg; --sk-c:#C5759A; --sk-delay:-1.7s"></span>
-  <span class="sk-fiber" style="--sk-rot:  60deg; --sk-c:#8E7FB8; --sk-delay:-2.4s"></span>
-  <!-- repeat with evenly spread rotations -->
-</div>`} />
-
-    {/* ============================================================ */}
-    {/* Glow stick — interactive                                      */}
-    {/* ============================================================ */}
-    <h2 class="site-h2">Glow stick — grab + shake</h2>
-    <p class="site-section-note">
-      Click and hold a stick, then drag — it rotates around its handle
-      and follows the cursor. Wave fast and the fibers brighten + blur
-      (<code>.shaking</code> state). Release and it springs back upright.
-      <br /><br />
-      This is the <em>only</em> primitive in the kit that needs runtime
-      JavaScript: load <code>sparkles-kit.js</code> once and any element
-      with <code>data-sk-glow-stick</code> wires itself up automatically.
-    </p>
-
-    <div class="site-demo" style="min-height: 320px; gap: 64px; align-items: flex-end; padding: 40px 60px 60px;">
-      <GlowStick count={11} />
-      <GlowStick count={13} seed={4221} spread={160} />
-      <GlowStick count={9} seed={2468} spread={120} height={180} />
-    </div>
-
-    <CodeBlock code={`<!-- Once per page: -->
-<script src="/sparkles-kit.js" defer></script>
-
-<!-- Per stick (the data-sk-glow-stick attribute is what JS picks up): -->
-<div class="sk-glow-stick" data-sk-glow-stick style="width:22px; height:200px;">
-  <div class="sk-glow-stick-handle"></div>
-  <div class="sk-glow-stick-tip">
-    <span class="sk-fiber" style="--sk-rot:115deg; --sk-c:#D97757"></span>
-    <span class="sk-fiber" style="--sk-rot:130deg; --sk-c:#C5759A"></span>
-    <!-- ... fan rotations 115°..245° (180° = up) ... -->
-  </div>
-</div>`} />
+    <CodeBlock code={`<div class="sk-antigrav-tile">…content…</div>`} />
 
     {/* ============================================================ */}
     {/* Slider + toggle                                               */}

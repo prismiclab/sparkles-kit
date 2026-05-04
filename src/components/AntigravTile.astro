@@ -1,0 +1,15 @@
+---
+interface Props {
+  as?: 'div' | 'a';
+  href?: string;
+  class?: string;
+}
+
+const { as = 'div', href, class: className = '' } = Astro.props;
+const Tag = as;
+const classes = ['sk-antigrav-tile', className].filter(Boolean).join(' ');
+---
+
+<Tag class={classes} href={href}>
+  <slot />
+</Tag>
