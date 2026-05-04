@@ -1,0 +1,22 @@
+---
+interface Props {
+  variant?: 'still' | 'sweep' | 'festival';
+  as?: 'div' | 'a';
+  href?: string;
+  class?: string;
+}
+
+const { variant = 'still', as = 'div', href, class: className = '' } = Astro.props;
+
+const variantClass =
+  variant === 'sweep' ? 'sk-prism-sweep'
+  : variant === 'festival' ? 'sk-prism-festival'
+  : '';
+
+const classes = ['sk-prism-tile', variantClass, className].filter(Boolean).join(' ');
+const Tag = as;
+---
+
+<Tag class={classes} href={href}>
+  <slot />
+</Tag>

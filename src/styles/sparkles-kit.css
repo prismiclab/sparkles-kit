@@ -287,6 +287,155 @@
 }
 
 /* ============================================================
+   4b. Prism tile — holographic-foil background
+   ------------------------------------------------------------
+   <div class="sk-prism-tile">…content…</div>
+   <div class="sk-prism-tile sk-prism-sweep">…sweep on hover…</div>
+   <div class="sk-prism-tile sk-prism-festival">…full festival energy…</div>
+
+   Mood: holographic trading-card / Pink-Floyd-prism / iridescent
+   foil. Layered backgrounds — diagonal aurora stripe (animated),
+   white glints in two corners, soft conic edge ring. JS-free.
+   ============================================================ */
+.sk-prism-tile {
+  position: relative;
+  border-radius: 20px;
+  padding: 32px;
+  color: var(--sk-text-primary);
+  background:
+    /* diagonal aurora dispersion stripe */
+    linear-gradient(
+      115deg,
+      transparent 0%,
+      rgba(217, 119, 87, 0.16) 12%,
+      rgba(197, 117, 154, 0.16) 24%,
+      rgba(142, 127, 184, 0.16) 36%,
+      rgba(107, 141, 201, 0.16) 48%,
+      rgba(127, 182, 158, 0.16) 60%,
+      rgba(217, 179, 119, 0.16) 72%,
+      rgba(217, 119, 87, 0.16) 84%,
+      transparent 100%
+    ),
+    /* white glints */
+    radial-gradient(circle at 28% 22%, rgba(255, 255, 255, 0.08), transparent 22%),
+    radial-gradient(circle at 78% 72%, rgba(255, 255, 255, 0.05), transparent 18%),
+    /* dark base */
+    var(--sk-bg-elevated);
+  background-size: 220% 220%, 100% 100%, 100% 100%, 100% 100%;
+  background-position: 0% 0%, 0 0, 0 0, 0 0;
+  isolation: isolate;
+  overflow: hidden;
+  animation: sk-prism-shift 16s linear infinite;
+  transition: background-color 400ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes sk-prism-shift {
+  to {
+    background-position: 220% 220%, 0 0, 0 0, 0 0;
+  }
+}
+
+/* Soft conic edge ring (slimmer than .sk-holo-card) */
+.sk-prism-tile::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--sk-edge-angle),
+    var(--sk-peach), var(--sk-rose), var(--sk-violet),
+    var(--sk-indigo), var(--sk-mint), var(--sk-amber), var(--sk-peach)
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  opacity: 0.40;
+  pointer-events: none;
+  z-index: 1;
+  animation: sk-edge-spin 25s linear infinite;
+  transition: opacity 400ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Sweep variant — second iridescent stripe runs across on hover */
+.sk-prism-tile.sk-prism-sweep::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(
+    72deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.06) 20%,
+    rgba(217, 119, 87, 0.18) 35%,
+    rgba(142, 127, 184, 0.20) 50%,
+    rgba(107, 141, 201, 0.18) 65%,
+    rgba(255, 255, 255, 0.06) 80%,
+    transparent 100%
+  );
+  background-size: 220% 100%;
+  background-position: -100% 0;
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition:
+    opacity 400ms ease-out,
+    background-position 1400ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sk-prism-tile.sk-prism-sweep:hover::after {
+  opacity: 1;
+  background-position: 100% 0;
+}
+
+.sk-prism-tile:hover::before {
+  opacity: 0.85;
+}
+
+/* Festival variant — louder ambient sheen + thicker stripes */
+.sk-prism-tile.sk-prism-festival {
+  background:
+    /* louder diagonal stripe */
+    linear-gradient(
+      115deg,
+      transparent 0%,
+      rgba(217, 119, 87, 0.30) 10%,
+      rgba(197, 117, 154, 0.30) 22%,
+      rgba(142, 127, 184, 0.30) 34%,
+      rgba(107, 141, 201, 0.30) 46%,
+      rgba(127, 182, 158, 0.30) 58%,
+      rgba(217, 179, 119, 0.30) 70%,
+      rgba(217, 119, 87, 0.30) 82%,
+      transparent 100%
+    ),
+    /* second crossing stripe — gives the prism dispersion feel */
+    linear-gradient(
+      -55deg,
+      transparent 0%,
+      rgba(142, 127, 184, 0.18) 30%,
+      rgba(107, 141, 201, 0.18) 50%,
+      rgba(127, 182, 158, 0.18) 70%,
+      transparent 100%
+    ),
+    /* white caustics */
+    radial-gradient(circle at 22% 18%, rgba(255, 255, 255, 0.14), transparent 26%),
+    radial-gradient(circle at 78% 82%, rgba(255, 255, 255, 0.10), transparent 22%),
+    var(--sk-bg-elevated);
+  background-size: 220% 220%, 280% 280%, 100% 100%, 100% 100%, 100% 100%;
+  background-position: 0% 0%, 100% 100%, 0 0, 0 0, 0 0;
+  animation: sk-prism-shift-festival 14s linear infinite;
+}
+
+@keyframes sk-prism-shift-festival {
+  to {
+    background-position: 220% 220%, -180% -180%, 0 0, 0 0, 0 0;
+  }
+}
+
+/* ============================================================
    5. Pill buttons
    ------------------------------------------------------------
    <button class="sk-pill">primary</button>
@@ -619,6 +768,9 @@
   .sk-pill-holo::before,
   .sk-pill-holo::after,
   .sk-holo-panel::before,
+  .sk-prism-tile,
+  .sk-prism-tile::before,
+  .sk-prism-tile.sk-prism-festival,
   .sk-avatar-ring {
     animation: none !important;
   }

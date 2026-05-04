@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import HoloCard from '../components/HoloCard.astro';
 import HoloPanel from '../components/HoloPanel.astro';
+import PrismTile from '../components/PrismTile.astro';
 import PillButton from '../components/PillButton.astro';
 import HoloSlider from '../components/HoloSlider.astro';
 import HoloToggle from '../components/HoloToggle.astro';
@@ -179,6 +180,63 @@ import CodeBlock from '../components/CodeBlock.astro';
     </div>
 
     <CodeBlock code={`<div class="sk-holo-panel">…content…</div>`} />
+
+    {/* ============================================================ */}
+    {/* Prism tile                                                    */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Prism tile</h2>
+    <p class="site-section-note">
+      Holographic-foil background. Layered diagonal aurora stripe (animated),
+      white caustic glints, and a soft conic edge ring. Three flavors:
+      <code>.sk-prism-tile</code> alone is the still ambient version,
+      <code>.sk-prism-sweep</code> adds an iridescent sweep on hover,
+      <code>.sk-prism-festival</code> turns up the saturation and crosses
+      a second dispersion stripe — full festival energy. JS-free.
+    </p>
+
+    <div class="site-grid-2" style="margin-bottom: 16px;">
+      <PrismTile>
+        <p class="site-eyebrow">/ sk-prism-tile</p>
+        <h3 style="font-family: var(--font-display); font-size: 22px; margin: 8px 0; letter-spacing: -0.015em;">
+          Still
+        </h3>
+        <p style="color: var(--sk-text-secondary); font-size: 14px; line-height: 1.6;">
+          Ambient iridescent foil. Slow background-position animation
+          drifts the rainbow stripe across the surface.
+        </p>
+      </PrismTile>
+
+      <PrismTile variant="sweep">
+        <p class="site-eyebrow">/ + sk-prism-sweep</p>
+        <h3 style="font-family: var(--font-display); font-size: 22px; margin: 8px 0; letter-spacing: -0.015em;">
+          Sweep on hover
+        </h3>
+        <p style="color: var(--sk-text-secondary); font-size: 14px; line-height: 1.6;">
+          Same base, plus a second iridescent stripe that sweeps from
+          left to right when the cursor enters. Hover me.
+        </p>
+      </PrismTile>
+    </div>
+
+    <div style="margin-bottom: 12px;">
+      <PrismTile variant="festival">
+        <p class="site-eyebrow">/ + sk-prism-festival</p>
+        <h3 style="font-family: var(--font-display); font-size: 26px; margin: 8px 0; letter-spacing: -0.015em;">
+          Festival energy.
+        </h3>
+        <p style="color: var(--sk-text-secondary); font-size: 14px; line-height: 1.65; max-width: 60ch;">
+          Two crossing dispersion stripes, white caustic glints,
+          full saturation. The Pink-Floyd-prism-meets-holo-foil flavor.
+          Use sparingly — it commands the page.
+        </p>
+      </PrismTile>
+    </div>
+
+    <CodeBlock code={`<div class="sk-prism-tile">…still ambient…</div>
+
+<div class="sk-prism-tile sk-prism-sweep">…sweep on hover…</div>
+
+<div class="sk-prism-tile sk-prism-festival">…festival energy…</div>`} />
 
     {/* ============================================================ */}
     {/* Slider + toggle                                               */}

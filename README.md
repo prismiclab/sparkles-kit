@@ -20,6 +20,7 @@ Distilled from the look on [nicowyss.ch](https://nicowyss.ch) and [wyss.cx](http
 | Aurora line | `.sk-aurora-line[data-text]` | Cream headline + slowly-rotating conic-gradient duplicate clipped to the text. |
 | Holo card | `.sk-holo-card` (+ `.sk-holo-glow`) | Glass surface with a rotating 1px conic-gradient border. Optional outer bloom. |
 | Holo panel | `.sk-holo-panel` | Lighter card variant — no border ring, just a soft conic bloom on hover. |
+| Prism tile | `.sk-prism-tile` (+ `.sk-prism-sweep`, `.sk-prism-festival`) | Holographic-foil background — diagonal aurora stripe, caustic glints, conic edge. Festival flavor crosses a second stripe. |
 | Pill button | `.sk-pill` (+ `.sk-pill-ghost`, `.sk-pill-holo`) | Three pill-shaped button variants. The holo one wraps a rotating rainbow ring. |
 | Slider | `.sk-slider` | Cross-browser styled `<input type="range">` with full-aurora track. |
 | Toggle | `.sk-toggle` | Pill-style on/off switch. Track gradients to aurora when checked. |
@@ -103,6 +104,18 @@ For Astro users, the `<Sparkles count={32} />` component generates this list det
   <h3>With outer bloom</h3>
   <p>A blurred conic gradient bleeds outward behind it.</p>
 </div>
+```
+
+### Prism tile
+
+Holographic-foil flavor. Three variants — pick by how loud you want it.
+
+```html
+<div class="sk-prism-tile">…still ambient…</div>
+
+<div class="sk-prism-tile sk-prism-sweep">…sweep on hover…</div>
+
+<div class="sk-prism-tile sk-prism-festival">…festival energy…</div>
 ```
 
 ### Pill button
