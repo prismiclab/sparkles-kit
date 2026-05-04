@@ -21,6 +21,8 @@ Distilled from the look on [nicowyss.ch](https://nicowyss.ch) and [wyss.cx](http
 | Holo card | `.sk-holo-card` (+ `.sk-holo-glow`) | Glass surface with a rotating 1px conic-gradient border. Optional outer bloom. |
 | Holo panel | `.sk-holo-panel` | Lighter card variant — no border ring, just a soft conic bloom on hover. |
 | Prism tile | `.sk-prism-tile` (+ `.sk-prism-sweep`, `.sk-prism-festival`) | Holographic-foil background — diagonal aurora stripe, caustic glints, conic edge. Festival flavor crosses a second stripe. |
+| Putty blob | `.sk-putty-blob` (+ `.sk-putty-aurora`) | Morphing blob shape — animated border-radius, glossy highlight + shadow, glitter sub-layer. Emerald or aurora palette. |
+| Fiber burst | `.sk-fiber-burst` + many `.sk-fiber` | Dance-floor LED-stick — radial fibers pulse on randomized clocks with bright tips. Use the Astro component or generate spans yourself. |
 | Pill button | `.sk-pill` (+ `.sk-pill-ghost`, `.sk-pill-holo`) | Three pill-shaped button variants. The holo one wraps a rotating rainbow ring. |
 | Slider | `.sk-slider` | Cross-browser styled `<input type="range">` with full-aurora track. |
 | Toggle | `.sk-toggle` | Pill-style on/off switch. Track gradients to aurora when checked. |
@@ -117,6 +119,32 @@ Holographic-foil flavor. Three variants — pick by how loud you want it.
 
 <div class="sk-prism-tile sk-prism-festival">…festival energy…</div>
 ```
+
+### Putty blob
+
+Morphing glitter blob. Inspired by emerald "smart putty". Two flavors:
+
+```html
+<div class="sk-putty-blob"></div>
+<div class="sk-putty-blob sk-putty-aurora"></div>
+```
+
+You can resize via inline `style="width: 320px"` — the aspect-ratio is locked to 1:1 so height follows.
+
+### Fiber burst
+
+Radial fiber-optic spray. Each fiber needs `--sk-rot`, `--sk-c`, and (optionally) `--sk-pulse-dur` and `--sk-delay`. The Astro `<FiberBurst count={48} />` component generates them deterministically at build time. Vanilla pattern:
+
+```html
+<div class="sk-fiber-burst">
+  <span class="sk-fiber" style="--sk-rot:   0deg; --sk-c:#D97757; --sk-delay:-0.3s"></span>
+  <span class="sk-fiber" style="--sk-rot:  30deg; --sk-c:#C5759A; --sk-delay:-1.7s"></span>
+  <span class="sk-fiber" style="--sk-rot:  60deg; --sk-c:#8E7FB8; --sk-delay:-2.4s"></span>
+  <!-- ... evenly spread rotations, e.g. 48 fibers × 7.5° each ... -->
+</div>
+```
+
+For density, 36-72 fibers reads well. The bright tip dot is on the `.sk-fiber::after` pseudo-element — no extra markup needed.
 
 ### Pill button
 

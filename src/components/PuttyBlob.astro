@@ -1,0 +1,13 @@
+---
+interface Props {
+  variant?: 'emerald' | 'aurora';
+  size?: number;
+  class?: string;
+}
+
+const { variant = 'emerald', size = 240, class: className = '' } = Astro.props;
+const variantClass = variant === 'aurora' ? 'sk-putty-aurora' : '';
+const classes = ['sk-putty-blob', variantClass, className].filter(Boolean).join(' ');
+---
+
+<div class={classes} style={`width: ${size}px;`}></div>

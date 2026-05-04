@@ -3,6 +3,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import HoloCard from '../components/HoloCard.astro';
 import HoloPanel from '../components/HoloPanel.astro';
 import PrismTile from '../components/PrismTile.astro';
+import PuttyBlob from '../components/PuttyBlob.astro';
+import FiberBurst from '../components/FiberBurst.astro';
 import PillButton from '../components/PillButton.astro';
 import HoloSlider from '../components/HoloSlider.astro';
 import HoloToggle from '../components/HoloToggle.astro';
@@ -237,6 +239,51 @@ import CodeBlock from '../components/CodeBlock.astro';
 <div class="sk-prism-tile sk-prism-sweep">…sweep on hover…</div>
 
 <div class="sk-prism-tile sk-prism-festival">…festival energy…</div>`} />
+
+    {/* ============================================================ */}
+    {/* Putty blob                                                    */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Putty blob</h2>
+    <p class="site-section-note">
+      Inspired by glittery "smart putty". The shape morphs slowly via
+      animated <code>border-radius</code>; specular + shadow inserts
+      give it volume; a glitter sub-layer twinkles on top. Two flavors:
+      emerald (default) and aurora (cycles the palette via a registered
+      <code>@property</code> hue angle). Hover for a subtle wobble.
+    </p>
+
+    <div class="site-demo" style="gap: 48px;">
+      <PuttyBlob />
+      <PuttyBlob variant="aurora" />
+    </div>
+
+    <CodeBlock code={`<div class="sk-putty-blob"></div>
+
+<div class="sk-putty-blob sk-putty-aurora"></div>`} />
+
+    {/* ============================================================ */}
+    {/* Fiber burst                                                   */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Fiber burst</h2>
+    <p class="site-section-note">
+      The dance-floor LED-stick: dozens of thin fibers radiate from a
+      center, each pulsing on its own randomized clock with a bright tip.
+      Use the <code>&lt;FiberBurst /&gt;</code> Astro component for build-time
+      generation, or paste the markup pattern from the README and tune
+      <code>--sk-rot</code>, <code>--sk-c</code>, and <code>--sk-delay</code> per fiber.
+    </p>
+
+    <div class="site-demo" style="gap: 48px;">
+      <FiberBurst count={48} />
+      <FiberBurst count={72} size={200} seed={9081} />
+    </div>
+
+    <CodeBlock code={`<div class="sk-fiber-burst">
+  <span class="sk-fiber" style="--sk-rot:   0deg; --sk-c:#D97757; --sk-delay:-0.3s"></span>
+  <span class="sk-fiber" style="--sk-rot:  30deg; --sk-c:#C5759A; --sk-delay:-1.7s"></span>
+  <span class="sk-fiber" style="--sk-rot:  60deg; --sk-c:#8E7FB8; --sk-delay:-2.4s"></span>
+  <!-- repeat with evenly spread rotations -->
+</div>`} />
 
     {/* ============================================================ */}
     {/* Slider + toggle                                               */}
