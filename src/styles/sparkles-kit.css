@@ -616,6 +616,107 @@
 }
 
 /* ============================================================
+   4e. Glow stick — interactive grab-and-shake LED stick
+   ------------------------------------------------------------
+   <div class="sk-glow-stick" data-sk-glow-stick>
+     <div class="sk-glow-stick-handle"></div>
+     <div class="sk-glow-stick-tip">
+       <span class="sk-fiber" style="--sk-rot:115deg; --sk-c:#D97757"></span>
+       ... fan of fibers at rotations 115°..245° (centered on 180°=up) ...
+     </div>
+   </div>
+
+   Visual: a black handle with a glowing tip fanning out fiber-optic
+   strands. The whole stick rotates around its bottom-center pivot.
+   The optional sparkles-kit.js attaches pointer/touch handlers so
+   click-hold drags the stick to follow the cursor and rapid motion
+   triggers a `.shaking` state (fibers brighten + blur).
+
+   Without the JS, the stick still renders correctly — just stays
+   upright and non-interactive.
+   ============================================================ */
+.sk-glow-stick {
+  position: relative;
+  width: 22px;
+  height: 200px;
+  transform-origin: bottom center;
+  transform: rotate(var(--sk-stick-angle, 0deg));
+  /* spring-overshoot easing for the release/snap-back */
+  transition: transform 700ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.sk-glow-stick.grabbed {
+  cursor: grabbing;
+  /* no easing while pointer is locked — follow instantly */
+  transition: none;
+}
+
+.sk-glow-stick-handle {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 52%;
+  border-radius: 11px;
+  background:
+    linear-gradient(180deg, #2c2c2a 0%, #16161a 60%, #0a0a0a 100%);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.10),
+    inset 0 -1px 4px rgba(0, 0, 0, 0.55),
+    inset -1px 0 3px rgba(0, 0, 0, 0.45),
+    0 6px 14px rgba(0, 0, 0, 0.45);
+}
+
+/* Tip — small luminous bulb that stays bright; fibers emanate from here */
+.sk-glow-stick-tip {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  margin-left: -7px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 40% 35%,
+    #fff 0%,
+    #f5f1eb 45%,
+    rgba(245, 241, 235, 0.6) 75%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 8px rgba(245, 241, 235, 0.65),
+    0 0 18px rgba(142, 127, 184, 0.45),
+    0 0 32px rgba(107, 141, 201, 0.30);
+  transition: box-shadow 200ms ease-out;
+}
+
+/* Fibers in the tip override the radial fiber's percentage height
+   and use fixed pixel dimensions appropriate for a stick. */
+.sk-glow-stick-tip .sk-fiber {
+  width: 1.4px;
+  height: 110px;
+}
+
+/* Shaking — high angular-velocity state (JS toggles `.shaking`) */
+.sk-glow-stick.shaking .sk-glow-stick-tip {
+  box-shadow:
+    0 0 14px rgba(245, 241, 235, 0.85),
+    0 0 28px rgba(217, 119, 87, 0.65),
+    0 0 48px rgba(142, 127, 184, 0.55);
+}
+
+.sk-glow-stick.shaking .sk-fiber {
+  filter:
+    drop-shadow(0 0 6px var(--sk-c, white))
+    drop-shadow(0 0 10px var(--sk-c, white))
+    blur(0.5px);
+}
+
+/* ============================================================
    5. Pill buttons
    ------------------------------------------------------------
    <button class="sk-pill">primary</button>
@@ -955,6 +1056,7 @@
   .sk-putty-blob::before,
   .sk-putty-blob.sk-putty-aurora,
   .sk-fiber,
+  .sk-glow-stick,
   .sk-avatar-ring {
     animation: none !important;
   }

@@ -22,7 +22,8 @@ Distilled from the look on [nicowyss.ch](https://nicowyss.ch) and [wyss.cx](http
 | Holo panel | `.sk-holo-panel` | Lighter card variant — no border ring, just a soft conic bloom on hover. |
 | Prism tile | `.sk-prism-tile` (+ `.sk-prism-sweep`, `.sk-prism-festival`) | Holographic-foil background — diagonal aurora stripe, caustic glints, conic edge. Festival flavor crosses a second stripe. |
 | Putty blob | `.sk-putty-blob` (+ `.sk-putty-aurora`) | Morphing blob shape — animated border-radius, glossy highlight + shadow, glitter sub-layer. Emerald or aurora palette. |
-| Fiber burst | `.sk-fiber-burst` + many `.sk-fiber` | Dance-floor LED-stick — radial fibers pulse on randomized clocks with bright tips. Use the Astro component or generate spans yourself. |
+| Fiber burst | `.sk-fiber-burst` + many `.sk-fiber` | Decorative fiber-optic spray — radial fibers pulse on randomized clocks with bright tips. Static. |
+| Glow stick | `.sk-glow-stick` + handle/tip + `.sk-fiber` fan | **Interactive.** Grab and drag with the cursor; fast motion triggers a `.shaking` state. Needs `sparkles-kit.js`. |
 | Pill button | `.sk-pill` (+ `.sk-pill-ghost`, `.sk-pill-holo`) | Three pill-shaped button variants. The holo one wraps a rotating rainbow ring. |
 | Slider | `.sk-slider` | Cross-browser styled `<input type="range">` with full-aurora track. |
 | Toggle | `.sk-toggle` | Pill-style on/off switch. Track gradients to aurora when checked. |
@@ -145,6 +146,29 @@ Radial fiber-optic spray. Each fiber needs `--sk-rot`, `--sk-c`, and (optionally
 ```
 
 For density, 36-72 fibers reads well. The bright tip dot is on the `.sk-fiber::after` pseudo-element — no extra markup needed.
+
+### Glow stick (interactive)
+
+The only primitive in the kit that uses runtime JavaScript. Click-hold drags the stick to follow the cursor; rapid motion triggers a `.shaking` class that brightens + blurs the fibers; release and it springs back upright. Pointer events, so touch screens work the same way.
+
+```html
+<!-- once per page -->
+<script src="/sparkles-kit.js" defer></script>
+
+<!-- per stick -->
+<div class="sk-glow-stick" data-sk-glow-stick style="width:22px; height:200px;">
+  <div class="sk-glow-stick-handle"></div>
+  <div class="sk-glow-stick-tip">
+    <span class="sk-fiber" style="--sk-rot:115deg; --sk-c:#D97757"></span>
+    <span class="sk-fiber" style="--sk-rot:130deg; --sk-c:#C5759A"></span>
+    <!-- fan rotations 115°..245° (180° = straight up) -->
+  </div>
+</div>
+```
+
+Astro: `<GlowStick count={11} spread={140} height={200} seed={7331} />` generates the markup.
+
+`sparkles-kit.js` auto-initializes on `DOMContentLoaded` and exposes `window.sparklesKit.initGlowSticks(scope?)` for re-init after dynamic DOM updates. The script is ~80 lines, no dependencies, IIFE — drops into any page including ones using React/Vue/Svelte.
 
 ### Pill button
 

@@ -5,6 +5,7 @@ import HoloPanel from '../components/HoloPanel.astro';
 import PrismTile from '../components/PrismTile.astro';
 import PuttyBlob from '../components/PuttyBlob.astro';
 import FiberBurst from '../components/FiberBurst.astro';
+import GlowStick from '../components/GlowStick.astro';
 import PillButton from '../components/PillButton.astro';
 import HoloSlider from '../components/HoloSlider.astro';
 import HoloToggle from '../components/HoloToggle.astro';
@@ -266,11 +267,12 @@ import CodeBlock from '../components/CodeBlock.astro';
     {/* ============================================================ */}
     <h2 class="site-h2">Fiber burst</h2>
     <p class="site-section-note">
-      The dance-floor LED-stick: dozens of thin fibers radiate from a
-      center, each pulsing on its own randomized clock with a bright tip.
-      Use the <code>&lt;FiberBurst /&gt;</code> Astro component for build-time
-      generation, or paste the markup pattern from the README and tune
-      <code>--sk-rot</code>, <code>--sk-c</code>, and <code>--sk-delay</code> per fiber.
+      Decorative fiber-optic spray — dozens of thin fibers radiate from
+      a center point, each pulsing on its own randomized clock with a
+      bright tip. Use the <code>&lt;FiberBurst /&gt;</code> Astro component
+      for build-time generation, or paste the markup pattern from the
+      README and tune <code>--sk-rot</code>, <code>--sk-c</code>, and
+      <code>--sk-delay</code> per fiber.
     </p>
 
     <div class="site-demo" style="gap: 48px;">
@@ -283,6 +285,39 @@ import CodeBlock from '../components/CodeBlock.astro';
   <span class="sk-fiber" style="--sk-rot:  30deg; --sk-c:#C5759A; --sk-delay:-1.7s"></span>
   <span class="sk-fiber" style="--sk-rot:  60deg; --sk-c:#8E7FB8; --sk-delay:-2.4s"></span>
   <!-- repeat with evenly spread rotations -->
+</div>`} />
+
+    {/* ============================================================ */}
+    {/* Glow stick — interactive                                      */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Glow stick — grab + shake</h2>
+    <p class="site-section-note">
+      Click and hold a stick, then drag — it rotates around its handle
+      and follows the cursor. Wave fast and the fibers brighten + blur
+      (<code>.shaking</code> state). Release and it springs back upright.
+      <br /><br />
+      This is the <em>only</em> primitive in the kit that needs runtime
+      JavaScript: load <code>sparkles-kit.js</code> once and any element
+      with <code>data-sk-glow-stick</code> wires itself up automatically.
+    </p>
+
+    <div class="site-demo" style="min-height: 320px; gap: 64px; align-items: flex-end; padding: 40px 60px 60px;">
+      <GlowStick count={11} />
+      <GlowStick count={13} seed={4221} spread={160} />
+      <GlowStick count={9} seed={2468} spread={120} height={180} />
+    </div>
+
+    <CodeBlock code={`<!-- Once per page: -->
+<script src="/sparkles-kit.js" defer></script>
+
+<!-- Per stick (the data-sk-glow-stick attribute is what JS picks up): -->
+<div class="sk-glow-stick" data-sk-glow-stick style="width:22px; height:200px;">
+  <div class="sk-glow-stick-handle"></div>
+  <div class="sk-glow-stick-tip">
+    <span class="sk-fiber" style="--sk-rot:115deg; --sk-c:#D97757"></span>
+    <span class="sk-fiber" style="--sk-rot:130deg; --sk-c:#C5759A"></span>
+    <!-- ... fan rotations 115°..245° (180° = up) ... -->
+  </div>
 </div>`} />
 
     {/* ============================================================ */}
