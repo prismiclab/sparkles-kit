@@ -6,14 +6,15 @@
 
      - spotlight tile  (cursor-tracked radial highlight)
      - tilt tile       (3D perspective tilt toward cursor)
-     - command palette (⌘K modal with filter + keyboard nav)
+     - command palette (cmd-K modal with filter + keyboard nav)
 
-   Drop in once per page:
-
-     <script src="/sparkles-kit.js" defer></script>
+   Drop in once per page via a regular script tag pointing at
+   sparkles-kit.js with the defer attribute (see README for the
+   exact markup — written out here would terminate this comment
+   when the file is inlined into HTML).
 
    Auto-runs on DOMContentLoaded, exposes
-   `window.sparklesKit.{initSpotlightTiles, initTiltTiles, initCmdk}`
+   window.sparklesKit.{initSpotlightTiles, initTiltTiles, initCmdk}
    for re-init after dynamic DOM updates.
    ============================================================ */
 (function () {

@@ -173,14 +173,28 @@
 .sk-color-spill.sk-spill-mint   { background: radial-gradient(circle, var(--sk-mint)   0%, rgba(127,182,158,0.55) 35%, transparent 70%); }
 .sk-color-spill.sk-spill-amber  { background: radial-gradient(circle, var(--sk-amber)  0%, rgba(217,179,119,0.55) 35%, transparent 70%); }
 
-/* Optional slow drift — opt in by adding the modifier class. */
+/* Optional slow drift — opt in by adding the modifier class.
+   Irregular path via multiple keyframe stops; per-color durations
+   + delays desync the six spills so they never line up. */
 .sk-color-spill.sk-spill-drift {
-  animation: sk-color-spill-drift 22s ease-in-out infinite alternate;
+  animation: sk-color-spill-drift 26s ease-in-out infinite;
 }
 
+.sk-color-spill.sk-spill-peach.sk-spill-drift  { animation-duration: 22s; animation-delay:  -3s; }
+.sk-color-spill.sk-spill-rose.sk-spill-drift   { animation-duration: 26s; animation-delay:  -7s; }
+.sk-color-spill.sk-spill-violet.sk-spill-drift { animation-duration: 30s; animation-delay:  -1s; }
+.sk-color-spill.sk-spill-indigo.sk-spill-drift { animation-duration: 24s; animation-delay: -11s; }
+.sk-color-spill.sk-spill-mint.sk-spill-drift   { animation-duration: 28s; animation-delay:  -5s; }
+.sk-color-spill.sk-spill-amber.sk-spill-drift  { animation-duration: 32s; animation-delay:  -9s; }
+
 @keyframes sk-color-spill-drift {
-  from { transform: translate3d(0, 0, 0); }
-  to   { transform: translate3d(8%, -6%, 0); }
+  0%   { transform: translate3d(  0%,   0%, 0); }
+  18%  { transform: translate3d(  7%,  -3%, 0); }
+  35%  { transform: translate3d(  2%,  -8%, 0); }
+  52%  { transform: translate3d( -5%,  -4%, 0); }
+  68%  { transform: translate3d( -3%,   5%, 0); }
+  84%  { transform: translate3d(  4%,   7%, 0); }
+  100% { transform: translate3d(  0%,   0%, 0); }
 }
 
 /* ============================================================
@@ -1442,11 +1456,14 @@
   position: absolute;
   bottom: calc(100% + 8px);
   left: 50%;
-  transform: translateX(-50%) translateY(4px);
+  /* Static transform — animating translateY caused subpixel
+     rendering blur on the text mid-transition. */
+  transform: translateX(-50%);
   padding: 6px 10px;
-  background: rgba(20, 20, 19, 0.92);
-  -webkit-backdrop-filter: blur(12px);
-          backdrop-filter: blur(12px);
+  /* Solid bg — backdrop-filter rasterizes the tooltip into a
+     compositing layer that some browsers (notably Safari) render
+     with softer text. */
+  background: #1a1a18;
   border: 1px solid var(--sk-border-subtle);
   border-radius: 8px;
   font-family: var(--sk-font-mono);
@@ -1454,19 +1471,19 @@
   letter-spacing: 0.02em;
   white-space: nowrap;
   color: var(--sk-text-primary);
+  -webkit-font-smoothing: antialiased;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 200ms ease-out, transform 200ms ease-out;
+  transition: opacity 180ms ease-out;
   z-index: 100;
   box-shadow:
-    0 8px 24px rgba(0, 0, 0, 0.4),
-    0 0 0 1px rgba(var(--sk-section-rgb), 0.15);
+    0 8px 24px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(var(--sk-section-rgb), 0.18);
 }
 
 .sk-tooltip[data-tooltip]:hover::after,
 .sk-tooltip[data-tooltip]:focus-within::after {
   opacity: 1;
-  transform: translateX(-50%) translateY(0);
 }
 
 /* ============================================================
