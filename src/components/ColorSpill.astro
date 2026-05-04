@@ -1,0 +1,31 @@
+---
+type SpillColor = 'peach' | 'rose' | 'violet' | 'indigo' | 'mint' | 'amber';
+
+interface Props {
+  color?: SpillColor;
+  size?: number;
+  drift?: boolean;
+  class?: string;
+  style?: string;
+}
+
+const {
+  color = 'violet',
+  size = 320,
+  drift = false,
+  class: className = '',
+  style = '',
+} = Astro.props;
+
+const classes = [
+  'sk-color-spill',
+  `sk-spill-${color}`,
+  drift ? 'sk-spill-drift' : '',
+  className,
+].filter(Boolean).join(' ');
+
+const sizeStyle = `width: ${size}px;`;
+const finalStyle = [sizeStyle, style].filter(Boolean).join(' ');
+---
+
+<div class={classes} style={finalStyle} aria-hidden="true"></div>

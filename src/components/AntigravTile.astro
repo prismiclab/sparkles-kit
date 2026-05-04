@@ -1,13 +1,18 @@
 ---
 interface Props {
+  grid?: boolean;
   as?: 'div' | 'a';
   href?: string;
   class?: string;
 }
 
-const { as = 'div', href, class: className = '' } = Astro.props;
+const { grid = false, as = 'div', href, class: className = '' } = Astro.props;
 const Tag = as;
-const classes = ['sk-antigrav-tile', className].filter(Boolean).join(' ');
+const classes = [
+  'sk-antigrav-tile',
+  grid ? 'sk-antigrav-grid' : '',
+  className,
+].filter(Boolean).join(' ');
 ---
 
 <Tag class={classes} href={href}>

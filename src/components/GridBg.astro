@@ -1,0 +1,15 @@
+---
+interface Props {
+  variant?: 'dotted' | 'lined';
+  class?: string;
+}
+
+const { variant = 'dotted', class: className = '' } = Astro.props;
+const classes = [
+  'sk-grid-bg',
+  variant === 'lined' ? 'sk-grid-lined' : '',
+  className,
+].filter(Boolean).join(' ');
+---
+
+<div class={classes} aria-hidden="true"></div>

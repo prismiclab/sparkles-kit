@@ -1,6 +1,7 @@
 ---
 import '../styles/site.css';
 import Sparkles from '../components/Sparkles.astro';
+import GridBg from '../components/GridBg.astro';
 
 interface Props {
   title: string;
@@ -42,6 +43,9 @@ const {
       <div class="sk-blob sk-blob-rose"></div>
     </div>
     <div class="sk-aurora-veil" aria-hidden="true"></div>
+
+    <!-- Subtle dotted grid (kit primitive — Linear-look structure) -->
+    <GridBg variant="dotted" />
 
     <!-- Sparkles (kit primitive #2) -->
     <Sparkles count={32} />

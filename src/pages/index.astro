@@ -5,6 +5,8 @@ import HoloPanel from '../components/HoloPanel.astro';
 import PrismTile from '../components/PrismTile.astro';
 import PuttyBlob from '../components/PuttyBlob.astro';
 import AntigravTile from '../components/AntigravTile.astro';
+import GridBg from '../components/GridBg.astro';
+import ColorSpill from '../components/ColorSpill.astro';
 import PillButton from '../components/PillButton.astro';
 import HoloSlider from '../components/HoloSlider.astro';
 import HoloToggle from '../components/HoloToggle.astro';
@@ -266,11 +268,12 @@ import CodeBlock from '../components/CodeBlock.astro';
     {/* ============================================================ */}
     <h2 class="site-h2">Antigravity tile</h2>
     <p class="site-section-note">
-      Reads as suspended in zero-g. Deep lifted shadow, glossy hairline
-      at the top edge (glass catching light), aurora underglow welling
-      up from below the tile, and tiny particles drifting upward inside.
-      The tile bobs ~3px at rest; hover lifts it 8px and intensifies
-      the underglow.
+      Floating glass in the Linear-look idiom — backdrop-blur frosted
+      glass, animated specular hairline ring, aurora underglow welling
+      up from below, drifting particles inside. Bobs ~3px at rest;
+      hover lifts 8px and intensifies the underglow + edge highlight.
+      Add <code>.sk-antigrav-grid</code> for a subtle 24px dotted grid
+      behind the particles.
     </p>
 
     <div class="site-grid-2" style="gap: 24px; margin-bottom: 16px;">
@@ -280,24 +283,104 @@ import CodeBlock from '../components/CodeBlock.astro';
           Suspended.
         </h3>
         <p style="color: var(--sk-text-secondary); font-size: 14px; line-height: 1.6;">
-          Bottom-up aurora wash + drifting particles + a deep
-          shadow that stays put while the tile floats.
+          Bottom-up aurora wash + drifting particles. Backdrop-blur
+          means whatever sits behind the tile (the aurora layer here)
+          softens through the glass.
         </p>
       </AntigravTile>
 
-      <AntigravTile>
-        <p class="site-eyebrow">/ same primitive</p>
+      <AntigravTile grid>
+        <p class="site-eyebrow">/ + sk-antigrav-grid</p>
         <h3 style="font-family: var(--font-display); font-size: 22px; margin: 8px 0; letter-spacing: -0.015em;">
-          Hover lifts it.
+          With dotted grid.
         </h3>
         <p style="color: var(--sk-text-secondary); font-size: 14px; line-height: 1.6;">
-          On hover, the bob pauses, the tile rises 8px, and the
-          underglow doubles in intensity. Subtle but unmistakable.
+          Same tile, plus a faint 24px dot pattern layered behind the
+          particles. The Linear-look move that adds structure without
+          shouting.
         </p>
       </AntigravTile>
     </div>
 
-    <CodeBlock code={`<div class="sk-antigrav-tile">…content…</div>`} />
+    <p class="site-section-note" style="margin-bottom: 16px;">
+      Bento layout — three tiles of varying weight, the kind of grid
+      you see all over linear.app and vercel.com.
+    </p>
+
+    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 16px; margin-bottom: 12px;">
+      <AntigravTile grid>
+        <p class="site-eyebrow">001 / hero</p>
+        <h3 style="font-family: var(--font-display); font-size: 24px; margin: 8px 0; letter-spacing: -0.02em;">
+          Wide tile, more weight.
+        </h3>
+        <p style="color: var(--sk-text-secondary); font-size: 14px; line-height: 1.6;">
+          The big tile carries the headline; the smaller ones support.
+        </p>
+      </AntigravTile>
+      <AntigravTile>
+        <p class="site-eyebrow">002</p>
+        <h3 style="font-family: var(--font-display); font-size: 18px; margin: 8px 0; letter-spacing: -0.015em;">
+          Support.
+        </h3>
+      </AntigravTile>
+      <AntigravTile>
+        <p class="site-eyebrow">003</p>
+        <h3 style="font-family: var(--font-display); font-size: 18px; margin: 8px 0; letter-spacing: -0.015em;">
+          Detail.
+        </h3>
+      </AntigravTile>
+    </div>
+
+    <CodeBlock code={`<div class="sk-antigrav-tile">…content…</div>
+
+<div class="sk-antigrav-tile sk-antigrav-grid">…with dotted grid…</div>`} />
+
+    {/* ============================================================ */}
+    {/* Grid background                                               */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Grid background</h2>
+    <p class="site-section-note">
+      Fixed dotted (default) or lined grid overlay. Sits between the
+      aurora veil and the sparkles in the z-stack so blobs glow
+      through it. Mount once in your layout — same shape as
+      <code>.sk-aurora-layer</code> and <code>.sk-sparkle-layer</code>.
+      It's already painting subtly behind this whole page.
+    </p>
+
+    <CodeBlock code={`<!-- once per page in your root layout -->
+<div class="sk-grid-bg" aria-hidden="true"></div>
+
+<!-- or 1px lines instead of dots -->
+<div class="sk-grid-bg sk-grid-lined" aria-hidden="true"></div>`} />
+
+    {/* ============================================================ */}
+    {/* Color spill                                                   */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Color spill</h2>
+    <p class="site-section-note">
+      Tile-sized aurora accent blob — different from <code>.sk-blob</code>
+      (which is fullscreen). Use behind hero text, beside cards, at
+      section transitions. Six color modifiers; add
+      <code>.sk-spill-drift</code> for slow movement.
+    </p>
+
+    <div class="site-demo" style="position: relative; min-height: 220px; overflow: hidden;">
+      <ColorSpill color="peach"  size={200} style="position:absolute; top:-40px; left:-40px;" />
+      <ColorSpill color="rose"   size={180} style="position:absolute; top:60px; left:140px;" />
+      <ColorSpill color="violet" size={220} style="position:absolute; top:-20px; left:340px;" />
+      <ColorSpill color="indigo" size={200} style="position:absolute; top:80px; left:540px;" />
+      <ColorSpill color="mint"   size={180} style="position:absolute; top:-30px; right:140px;" />
+      <ColorSpill color="amber"  size={200} style="position:absolute; top:60px; right:-40px;" />
+      <p style="position: relative; z-index: 5; text-align: center; font-family: var(--font-display); font-size: 36px; letter-spacing: -0.025em; color: var(--sk-text-primary);">
+        all six hues, scattered.
+      </p>
+    </div>
+
+    <CodeBlock code={`<div class="sk-color-spill sk-spill-violet"
+     style="position: absolute; top: 80px; left: 40%;"></div>
+
+<!-- or with slow drift animation -->
+<div class="sk-color-spill sk-spill-mint sk-spill-drift"></div>`} />
 
     {/* ============================================================ */}
     {/* Slider + toggle                                               */}

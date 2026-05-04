@@ -116,6 +116,72 @@
 }
 
 /* ============================================================
+   1b. Grid background — fixed dotted/lined overlay
+   ------------------------------------------------------------
+   <div class="sk-grid-bg" aria-hidden="true"></div>
+   <div class="sk-grid-bg sk-grid-lined" aria-hidden="true"></div>
+
+   Sits between aurora veil (z:1) and sparkles (z:2). Faint enough
+   that it reads as structure rather than pattern; pairs naturally
+   with the Linear-look feature tiles on top.
+   ============================================================ */
+.sk-grid-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle, rgba(245, 241, 235, 0.045) 1px, transparent 1.4px);
+  background-size: 28px 28px;
+}
+
+.sk-grid-bg.sk-grid-lined {
+  background-image:
+    linear-gradient(to right, rgba(245, 241, 235, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(245, 241, 235, 0.035) 1px, transparent 1px);
+  background-size: 28px 28px, 28px 28px;
+}
+
+/* ============================================================
+   1c. Color spill — tile-sized aurora accent blob
+   ------------------------------------------------------------
+   <div class="sk-color-spill sk-spill-violet"
+        style="position:absolute; top:120px; left:40%;"></div>
+
+   Different from .sk-blob (which is fullscreen-sized for the
+   ambient layer). Use these for *localized* accents — behind a
+   hero headline, beside a feature card, at section transitions.
+   Six color modifiers matching the aurora palette.
+   ============================================================ */
+.sk-color-spill {
+  width: 320px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  filter: blur(80px);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  opacity: 0.55;
+  will-change: transform;
+}
+
+.sk-color-spill.sk-spill-peach  { background: radial-gradient(circle, var(--sk-peach)  0%, transparent 65%); }
+.sk-color-spill.sk-spill-rose   { background: radial-gradient(circle, var(--sk-rose)   0%, transparent 65%); }
+.sk-color-spill.sk-spill-violet { background: radial-gradient(circle, var(--sk-violet) 0%, transparent 65%); }
+.sk-color-spill.sk-spill-indigo { background: radial-gradient(circle, var(--sk-indigo) 0%, transparent 65%); }
+.sk-color-spill.sk-spill-mint   { background: radial-gradient(circle, var(--sk-mint)   0%, transparent 65%); }
+.sk-color-spill.sk-spill-amber  { background: radial-gradient(circle, var(--sk-amber)  0%, transparent 65%); }
+
+/* Optional slow drift — opt in by adding the modifier class. */
+.sk-color-spill.sk-spill-drift {
+  animation: sk-color-spill-drift 22s ease-in-out infinite alternate;
+}
+
+@keyframes sk-color-spill-drift {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(8%, -6%, 0); }
+}
+
+/* ============================================================
    2. Sparkles
    ------------------------------------------------------------
    <div class="sk-sparkle-layer" aria-hidden="true">
@@ -532,15 +598,17 @@
 }
 
 /* ============================================================
-   4d. Antigravity tile — floating glass with aurora underglow
+   4d. Antigravity tile — floating glass in the Linear-look idiom
    ------------------------------------------------------------
    <div class="sk-antigrav-tile">…content…</div>
+   <div class="sk-antigrav-tile sk-antigrav-grid">…with grid bg…</div>
 
-   Reads as "suspended in zero-g": deep lifted shadow, glossy
-   top-edge highlight (glass catching light), aurora wash glowing
-   from below the tile, and tiny particles drifting upward inside.
-   Idle bob animation (~3px) gives constant floating presence;
-   hover lifts the tile + intensifies the underglow.
+   Three Linear-look ingredients: backdrop-blur glass (semi-
+   transparent fill + filter), animated specular hairline border
+   (rotating conic-gradient via mask-composite), and aurora
+   underglow welling up from below. Plus our flourish: tiny
+   particles drifting upward inside, and an idle ~3px bob.
+   Hover lifts 8px and intensifies the underglow + edge highlight.
    ============================================================ */
 .sk-antigrav-tile {
   position: relative;
@@ -553,9 +621,12 @@
     /* faint vertical sheen */
     linear-gradient(180deg, transparent 0%, rgba(245, 241, 235, 0.025) 100%),
     /* aurora underglow — illuminated from below */
-    radial-gradient(ellipse 110% 65% at 50% 115%, rgba(107, 141, 201, 0.32), transparent 72%),
-    radial-gradient(ellipse 75% 55% at 50% 105%, rgba(142, 127, 184, 0.22), transparent 65%),
-    var(--sk-bg-elevated);
+    radial-gradient(ellipse 110% 65% at 50% 115%, rgba(107, 141, 201, 0.30), transparent 72%),
+    radial-gradient(ellipse 75% 55% at 50% 105%, rgba(142, 127, 184, 0.20), transparent 65%),
+    /* semi-transparent dark fill so backdrop-filter has something to blur through */
+    rgba(20, 20, 19, 0.62);
+  -webkit-backdrop-filter: blur(18px) saturate(1.15);
+          backdrop-filter: blur(18px) saturate(1.15);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.08),
     0 18px 36px rgba(0, 0, 0, 0.50),
@@ -609,6 +680,51 @@
   to {
     background-position: 12px -20%, 35px -40%, 8px -60%;
   }
+}
+
+/* Animated specular hairline ring — same mask-composite pattern as
+   .sk-holo-card::before, but at much lower opacity (reads as "metal
+   catching light," not as a rainbow ring). Reuses --sk-edge-angle. */
+.sk-antigrav-tile::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--sk-edge-angle),
+    var(--sk-peach), var(--sk-rose), var(--sk-violet),
+    var(--sk-indigo), var(--sk-mint), var(--sk-amber), var(--sk-peach)
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  opacity: 0.12;
+  pointer-events: none;
+  z-index: 1;
+  animation: sk-edge-spin 50s linear infinite;
+  transition: opacity 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sk-antigrav-tile:hover::after { opacity: 0.32; }
+
+/* Opt-in modifier — paints a subtle 24px dotted grid behind the
+   particles. Layered, doesn't replace any of the existing background. */
+.sk-antigrav-tile.sk-antigrav-grid {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.10) 0%, transparent 7%),
+    linear-gradient(180deg, transparent 0%, rgba(245, 241, 235, 0.025) 100%),
+    radial-gradient(ellipse 110% 65% at 50% 115%, rgba(107, 141, 201, 0.30), transparent 72%),
+    radial-gradient(ellipse 75% 55% at 50% 105%, rgba(142, 127, 184, 0.20), transparent 65%),
+    /* dotted grid layer */
+    radial-gradient(circle, rgba(245, 241, 235, 0.05) 1px, transparent 1.4px),
+    rgba(20, 20, 19, 0.62);
+  background-size:
+    auto, auto, auto, auto,
+    24px 24px,
+    auto;
 }
 
 /* ============================================================
@@ -952,6 +1068,8 @@
   .sk-putty-blob.sk-putty-aurora,
   .sk-antigrav-tile,
   .sk-antigrav-tile::before,
+  .sk-antigrav-tile::after,
+  .sk-color-spill.sk-spill-drift,
   .sk-avatar-ring {
     animation: none !important;
   }

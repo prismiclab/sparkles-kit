@@ -6,6 +6,12 @@ A small, dependency-free CSS kit for sparkles, holo edges, and rainbow UI.
 
 Distilled from the look on [nicowyss.ch](https://nicowyss.ch) and [wyss.cx](https://wyss.cx) — drifting aurora blobs, rotating conic-gradient borders, twinkling sparkles, and pill buttons that bloom on hover. Drop one file into any project, use the classes, ship.
 
+## Design lineage
+
+This kit gives you the construction blocks for what designers call **"the Linear look"** — dark-first surfaces, hairline borders with animated specular highlights, subtle aurora-tinted color spills, glassmorphic floating tiles, and grid-on-dark backgrounds. The same vocabulary shows up across [linear.app](https://linear.app), [raycast.com](https://raycast.com), [vercel.com](https://vercel.com), [supabase.com](https://supabase.com), [railway.app](https://railway.app), and [resend.com](https://resend.com). Background reading: [Frontend Horse — The Linear Look](https://frontend.horse/articles/the-linear-look/), [Linear's redesign post](https://linear.app/now/how-we-redesigned-the-linear-ui), [Aurora UI on BramblingTech](https://bramblingtech.com/blog/aurora-ui-the-new-visual-trend-for-2022/), and [Bento UI on NateBal](https://natebal.com/bento-ui-design-modular-grid-ux/).
+
+Sparkles-kit takes that vocabulary, dials the aurora a touch louder (because we like the rainbow), and ships the primitives as plain classes you can copy.
+
 > **Status:** v0.1 — MIT — framework-agnostic CSS, optional Astro components.
 
 ---
@@ -22,7 +28,9 @@ Distilled from the look on [nicowyss.ch](https://nicowyss.ch) and [wyss.cx](http
 | Holo panel | `.sk-holo-panel` | Lighter card variant — no border ring, just a soft conic bloom on hover. |
 | Prism tile | `.sk-prism-tile` (+ `.sk-prism-sweep`, `.sk-prism-festival`) | Holographic-foil background — diagonal aurora stripe, caustic glints, conic edge. Festival flavor crosses a second stripe. |
 | Putty blob | `.sk-putty-blob` (+ `.sk-putty-aurora`) | Morphing blob shape — animated border-radius, glossy highlight + shadow, glitter sub-layer. Emerald or aurora palette. |
-| Antigravity tile | `.sk-antigrav-tile` | Floating glass — aurora underglow, glossy top edge, drifting particles inside, idle bob, hover-lift. |
+| Antigravity tile | `.sk-antigrav-tile` (+ `.sk-antigrav-grid`) | Floating glassmorphic tile — backdrop-blur, animated specular hairline ring, aurora underglow, drifting particles, idle bob, hover-lift. Optional dotted-grid modifier. |
+| Grid background | `.sk-grid-bg` (+ `.sk-grid-lined`) | Fixed dotted (default) or lined grid overlay. Sits between aurora veil and sparkles. Drop in once per layout. |
+| Color spill | `.sk-color-spill` + `.sk-spill-{peach,rose,violet,indigo,mint,amber}` (+ `.sk-spill-drift`) | Tile-sized aurora accent blob. Different from `.sk-blob` (fullscreen) — use for *localized* accents behind hero text, beside cards. |
 | Pill button | `.sk-pill` (+ `.sk-pill-ghost`, `.sk-pill-holo`) | Three pill-shaped button variants. The holo one wraps a rotating rainbow ring. |
 | Slider | `.sk-slider` | Cross-browser styled `<input type="range">` with full-aurora track. |
 | Toggle | `.sk-toggle` | Pill-style on/off switch. Track gradients to aurora when checked. |
@@ -122,14 +130,47 @@ Holographic-foil flavor. Three variants — pick by how loud you want it.
 
 ### Antigravity tile
 
-Floating glass panel. Aurora underglow, glossy top-edge highlight, particles drifting upward inside the tile, idle ~3px bob, hover lifts to 8px.
+Floating glassmorphic panel. Backdrop-blur frosted glass, animated specular hairline ring (low-opacity rotating conic gradient), aurora underglow welling up from below, particles drifting upward inside, idle ~3px bob, hover lifts to 8px and intensifies the underglow + edge highlight. Add `.sk-antigrav-grid` for a 24px dotted grid behind the particles.
 
 ```html
 <div class="sk-antigrav-tile">
   <h3>Suspended.</h3>
   <p>Bottom-up aurora wash + drifting particles.</p>
 </div>
+
+<div class="sk-antigrav-tile sk-antigrav-grid">
+  <h3>With dotted grid.</h3>
+</div>
 ```
+
+Astro: `<AntigravTile grid={true}>...</AntigravTile>`. Pairs naturally with bento layouts (`grid-template-columns: 2fr 1fr 1fr` etc.) — the look you see on linear.app and vercel.com.
+
+### Grid background
+
+Fixed dotted or lined grid overlay across the whole viewport. Mount once in your layout — same shape as `.sk-aurora-layer` and `.sk-sparkle-layer`. Sits at z:1, between the aurora veil (z:1, placed before in DOM) and sparkles (z:2).
+
+```html
+<div class="sk-grid-bg" aria-hidden="true"></div>
+
+<!-- or 1px lines instead of dots -->
+<div class="sk-grid-bg sk-grid-lined" aria-hidden="true"></div>
+```
+
+Astro: `<GridBg variant="dotted" />` or `<GridBg variant="lined" />`.
+
+### Color spill
+
+Tile-sized aurora accent blob — different from `.sk-blob` (which is fullscreen-sized for the ambient layer). Use these for *localized* accents behind hero text, beside cards, at section transitions. Six color modifiers; add `.sk-spill-drift` for slow movement.
+
+```html
+<div class="sk-color-spill sk-spill-violet"
+     style="position: absolute; top: 80px; left: 40%;"></div>
+
+<!-- or with slow drift animation -->
+<div class="sk-color-spill sk-spill-mint sk-spill-drift"></div>
+```
+
+Astro: `<ColorSpill color="violet" size={320} drift={true} />`. Default size 320px; pass `size` (px) to override.
 
 ### Putty blob
 
