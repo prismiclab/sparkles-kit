@@ -2,6 +2,7 @@
 import '../styles/site.css';
 import Sparkles from '../components/Sparkles.astro';
 import GridBg from '../components/GridBg.astro';
+import LiquidDefs from '../components/LiquidDefs.astro';
 
 interface Props {
   title: string;
@@ -49,6 +50,9 @@ const {
 
     <!-- Subtle film grain — cinematic finish on the dark base -->
     <div class="sk-noise-overlay" aria-hidden="true"></div>
+
+    <!-- SVG filter defs for .sk-liquid-tile -->
+    <LiquidDefs />
 
     <!-- Sparkles (kit primitive #2) -->
     <Sparkles count={32} />

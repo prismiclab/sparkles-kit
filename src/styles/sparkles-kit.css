@@ -615,40 +615,60 @@
 }
 
 /* ============================================================
-   4c-bis. Liquid tile — flowing iridescent foil
+   4c-bis. Liquid tile — flowing iridescent foil with real
+                         fluid distortion (SVG turbulence)
    ------------------------------------------------------------
    <div class="sk-liquid-tile">…dark text on iridescent bg…</div>
 
-   Pinterest-aesthetic: pastel pink/blue/violet/peach/mint
-   radial blobs that slowly drift across the tile via animated
-   background-position. Reads like holographic foil flowing
-   under glass. Light substrate by default — text inside should
-   be dark for contrast.
+   The fluid look comes from a hidden SVG <feTurbulence> +
+   <feDisplacementMap> filter referenced as `filter: url(#sk-
+   liquid-distort)`. Without the SVG mounted, the gradients still
+   render — you just lose the wavy distortion (graceful fallback).
+
+   Required once per page (see README — copy the <svg> snippet
+   into your layout, or use sparkles-kit's BaseLayout which
+   includes it automatically).
    ============================================================ */
 .sk-liquid-tile {
   position: relative;
   border-radius: 18px;
   padding: 32px;
-  color: #1a1419;
-  background:
-    /* Layered iridescent radial blobs — each pegged to a corner */
-    radial-gradient(ellipse 80% 60% at 25% 25%, rgba(255, 145, 200, 0.85), transparent 55%),
-    radial-gradient(ellipse 90% 70% at 75% 35%, rgba(140, 180, 255, 0.80), transparent 55%),
-    radial-gradient(ellipse 85% 70% at 30% 75%, rgba(180, 145, 240, 0.80), transparent 60%),
-    radial-gradient(ellipse 75% 60% at 80% 80%, rgba(255, 175, 145, 0.75), transparent 55%),
-    radial-gradient(ellipse 70% 50% at 50% 50%, rgba(160, 230, 200, 0.60), transparent 60%),
-    /* Pearl base */
-    linear-gradient(135deg, #ffeaf5 0%, #e0eaff 100%);
-  background-size:
-    220% 220%, 240% 240%, 200% 200%, 260% 260%, 220% 220%, 100% 100%;
-  background-position:
-    0% 0%, 100% 0%, 0% 100%, 100% 100%, 50% 50%, 0 0;
+  color: #14101A;
   isolation: isolate;
   overflow: hidden;
-  animation: sk-liquid-flow 28s ease-in-out infinite alternate;
+  /* Solid-color fallback in case the ::before / SVG don't render */
+  background: linear-gradient(135deg, #FFCDE5 0%, #C7D7FF 100%);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.45),
-    0 12px 32px rgba(180, 145, 240, 0.25);
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    0 14px 36px rgba(160, 100, 200, 0.30);
+}
+
+/* The actual liquid-flowing layer — saturated radial blobs that
+   the SVG filter distorts. inset: -10% lets the displaced edges
+   land outside the visible tile so we don't see the torn boundary. */
+.sk-liquid-tile::before {
+  content: '';
+  position: absolute;
+  inset: -10%;
+  z-index: -1;
+  background:
+    /* Five saturated, substantial-color radial blobs — each at its
+       own corner with its own size so the mixing reads as flow not
+       as separate spots */
+    radial-gradient(ellipse 90% 75% at 22% 22%, #E84CA0 0%, transparent 55%),
+    radial-gradient(ellipse 95% 80% at 80% 28%, #5C82F0 0%, transparent 55%),
+    radial-gradient(ellipse 85% 75% at 30% 80%, #A878E5 0%, transparent 60%),
+    radial-gradient(ellipse 90% 70% at 82% 78%, #FF895C 0%, transparent 55%),
+    radial-gradient(ellipse 75% 60% at 50% 50%, #5BD9A0 0%, transparent 60%),
+    /* Pearl wash beneath so the saturated blobs blend onto something
+       light, not onto white — keeps it iridescent foil, not poster */
+    linear-gradient(135deg, #FFEAF5 0%, #DCE7FF 100%);
+  background-size:
+    260% 260%, 280% 280%, 240% 240%, 300% 300%, 260% 260%, 100% 100%;
+  background-position:
+    0% 0%, 100% 0%, 0% 100%, 100% 100%, 50% 50%, 0 0;
+  filter: url(#sk-liquid-distort);
+  animation: sk-liquid-flow 30s ease-in-out infinite alternate;
 }
 
 @keyframes sk-liquid-flow {
@@ -658,7 +678,7 @@
   }
   50% {
     background-position:
-      60% 80%, 20% 60%, 90% 30%, 40% 10%, 70% 80%, 0 0;
+      55% 80%, 25% 60%, 90% 25%, 40% 10%, 70% 75%, 0 0;
   }
   100% {
     background-position:
@@ -666,23 +686,8 @@
   }
 }
 
-/* Dark variant — same flow, but on the kit's dark substrate.
-   Uses the aurora palette tokens so it retones with the kit theme. */
-.sk-liquid-tile.sk-liquid-dark {
-  color: var(--sk-text-primary);
-  background:
-    radial-gradient(ellipse 80% 60% at 25% 25%, rgba(217, 119, 87, 0.55), transparent 60%),
-    radial-gradient(ellipse 90% 70% at 75% 35%, rgba(107, 141, 201, 0.55), transparent 60%),
-    radial-gradient(ellipse 85% 70% at 30% 75%, rgba(142, 127, 184, 0.55), transparent 65%),
-    radial-gradient(ellipse 75% 60% at 80% 80%, rgba(197, 117, 154, 0.50), transparent 60%),
-    radial-gradient(ellipse 70% 50% at 50% 50%, rgba(127, 182, 158, 0.40), transparent 60%),
-    var(--sk-bg-elevated);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.06),
-    0 12px 32px rgba(0, 0, 0, 0.40);
-}
-
-/* Glossy speculal on top — gives it that "wet plastic" sheen */
+/* Glossy specular on top — wet-plastic sheen, sits ABOVE content
+   via z-index but with pointer-events:none so it doesn't block clicks. */
 .sk-liquid-tile::after {
   content: '';
   position: absolute;
@@ -690,16 +695,38 @@
   border-radius: inherit;
   pointer-events: none;
   background: linear-gradient(
-    160deg,
-    rgba(255, 255, 255, 0.35) 0%,
-    rgba(255, 255, 255, 0.12) 18%,
-    transparent 40%,
-    transparent 65%,
-    rgba(255, 255, 255, 0.10) 92%,
-    rgba(255, 255, 255, 0.22) 100%
+    155deg,
+    rgba(255, 255, 255, 0.40) 0%,
+    rgba(255, 255, 255, 0.10) 18%,
+    transparent 42%,
+    transparent 62%,
+    rgba(255, 255, 255, 0.08) 88%,
+    rgba(255, 255, 255, 0.25) 100%
   );
   mix-blend-mode: overlay;
   z-index: 1;
+}
+
+/* Dark variant — same fluid distortion, but the saturated blobs
+   shift to the kit's aurora palette on the dark substrate. */
+.sk-liquid-tile.sk-liquid-dark {
+  color: var(--sk-text-primary);
+  background: var(--sk-bg-elevated);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 14px 36px rgba(0, 0, 0, 0.45);
+}
+
+.sk-liquid-tile.sk-liquid-dark::before {
+  background:
+    radial-gradient(ellipse 90% 75% at 22% 22%, var(--sk-peach), transparent 60%),
+    radial-gradient(ellipse 95% 80% at 80% 28%, var(--sk-indigo), transparent 60%),
+    radial-gradient(ellipse 85% 75% at 30% 80%, var(--sk-violet), transparent 65%),
+    radial-gradient(ellipse 90% 70% at 82% 78%, var(--sk-rose), transparent 60%),
+    radial-gradient(ellipse 75% 60% at 50% 50%, var(--sk-mint), transparent 65%),
+    var(--sk-bg-elevated);
+  background-size:
+    260% 260%, 280% 280%, 240% 240%, 300% 300%, 260% 260%, 100% 100%;
 }
 
 /* ============================================================
