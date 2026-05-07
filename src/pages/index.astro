@@ -17,6 +17,8 @@ import StatusDot from '../components/StatusDot.astro';
 import Tooltip from '../components/Tooltip.astro';
 import Marquee from '../components/Marquee.astro';
 import LiquidTile from '../components/LiquidTile.astro';
+import Reveal from '../components/Reveal.astro';
+import StaggerChildren from '../components/StaggerChildren.astro';
 import PillButton from '../components/PillButton.astro';
 import HoloSlider from '../components/HoloSlider.astro';
 import HoloToggle from '../components/HoloToggle.astro';
@@ -927,6 +929,58 @@ import CodeBlock from '../components/CodeBlock.astro';
       once near the top of <code>&lt;body&gt;</code>.
     </p>
     <CodeBlock code={`<div class="sk-noise-overlay" aria-hidden="true"></div>`} />
+
+    {/* ============================================================ */}
+    {/* Reveal + stagger                                              */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Reveal + stagger on scroll</h2>
+    <p class="site-section-note">
+      Scroll-driven entrance via <code>animation-timeline: view()</code>.
+      Element fades + slides up as it enters the viewport — animation
+      progress is bound to scroll position, not time. Zero JS. In
+      browsers without scroll-timeline support, the element jumps
+      straight to its end state (graceful fallback). Stagger by
+      wrapping a list in <code>.sk-stagger-children</code>.
+    </p>
+
+    <Reveal as="div" class="site-demo" style="flex-direction: column; gap: 16px; align-items: stretch; min-height: 220px; padding: 60px;">
+      <p class="site-eyebrow" style="margin: 0;">/ sk-reveal</p>
+      <h3 style="font-family: var(--font-display); font-size: clamp(28px, 4vw, 44px); margin: 8px 0; letter-spacing: -0.025em;">
+        I appeared as you scrolled.
+      </h3>
+      <p style="color: var(--sk-text-secondary); font-size: 14px; line-height: 1.6; max-width: 60ch;">
+        Scroll up + back down to see it again. The whole tile is one
+        <code>.sk-reveal</code>.
+      </p>
+    </Reveal>
+
+    <p class="site-section-note" style="margin-top: 32px; margin-bottom: 16px;">
+      Stagger — six chips, each enters slightly after the previous as
+      you scroll past:
+    </p>
+
+    <StaggerChildren class="site-demo" style="flex-wrap: wrap; gap: 12px; justify-content: center; min-height: 140px; padding: 40px;">
+      <span class="sk-pill sk-pill-ghost">first</span>
+      <span class="sk-pill sk-pill-ghost">second</span>
+      <span class="sk-pill sk-pill-ghost">third</span>
+      <span class="sk-pill sk-pill-ghost">fourth</span>
+      <span class="sk-pill sk-pill-ghost">fifth</span>
+      <span class="sk-pill sk-pill-ghost">sixth</span>
+    </StaggerChildren>
+
+    <CodeBlock code={`<div class="sk-reveal">…fades + slides up as it scrolls in…</div>
+
+<ul class="sk-stagger-children">
+  <li>first</li>
+  <li>second  <!-- enters slightly after #1 --></li>
+  <li>third   <!-- slightly after #2 --></li>
+</ul>
+
+<!-- For >12 children, set --i inline to extend the cascade: -->
+<div class="sk-stagger-children">
+  <div style="--i: 12">thirteenth</div>
+  <div style="--i: 13">fourteenth</div>
+</div>`} />
 
     {/* ============================================================ */}
     {/* Customizing                                                   */}

@@ -1809,6 +1809,65 @@
 }
 
 /* ============================================================
+   27. Reveal + stagger — scroll-driven entrance animations
+   ------------------------------------------------------------
+   <div class="sk-reveal">…fades + slides up as it scrolls in…</div>
+
+   <ul class="sk-stagger-children">
+     <li>first  — enters at scroll position 0</li>
+     <li>second — enters slightly later</li>
+     <li>third  — slightly later again</li>
+   </ul>
+
+   Uses `animation-timeline: view()` — the animation progress is
+   tied to the element's scroll position relative to the viewport.
+   Zero JS. In browsers that support it (Chrome/Edge 115+, Firefox
+   140+), the element animates AS you scroll past it. In browsers
+   that don't, the keyframe runs over its default 0s duration so
+   the element jumps to its end state on load — i.e. it just shows
+   up normally. Graceful fallback.
+   ============================================================ */
+.sk-reveal,
+.sk-stagger-children > * {
+  animation: sk-reveal linear both;
+  animation-timeline: view();
+  animation-range: entry 0% entry 60%;
+}
+
+@keyframes sk-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Stagger via nth-child --i fallback. For >12 children, set --i
+   inline (e.g. style="--i: 12"). Each child's reveal range slides
+   forward in the entry phase, so they cascade as you scroll. */
+.sk-stagger-children > * {
+  animation-range:
+    entry calc(var(--i, 0) * 4%)
+    entry calc(50% + var(--i, 0) * 4%);
+}
+
+.sk-stagger-children > *:nth-child(1)  { --i:  0; }
+.sk-stagger-children > *:nth-child(2)  { --i:  1; }
+.sk-stagger-children > *:nth-child(3)  { --i:  2; }
+.sk-stagger-children > *:nth-child(4)  { --i:  3; }
+.sk-stagger-children > *:nth-child(5)  { --i:  4; }
+.sk-stagger-children > *:nth-child(6)  { --i:  5; }
+.sk-stagger-children > *:nth-child(7)  { --i:  6; }
+.sk-stagger-children > *:nth-child(8)  { --i:  7; }
+.sk-stagger-children > *:nth-child(9)  { --i:  8; }
+.sk-stagger-children > *:nth-child(10) { --i:  9; }
+.sk-stagger-children > *:nth-child(11) { --i: 10; }
+.sk-stagger-children > *:nth-child(12) { --i: 11; }
+
+/* ============================================================
    10. Reduced motion — respect users who don't want spinning
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {
@@ -1841,5 +1900,13 @@
   }
   .sk-tilt-tile {
     transform: none !important;
+  }
+  /* Reveal/stagger: skip the entrance animation so elements show
+     at their final state instead of staying invisible. */
+  .sk-reveal,
+  .sk-stagger-children > * {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
   }
 }
