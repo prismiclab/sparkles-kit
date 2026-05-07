@@ -19,6 +19,7 @@ import Marquee from '../components/Marquee.astro';
 import LiquidTile from '../components/LiquidTile.astro';
 import Reveal from '../components/Reveal.astro';
 import StaggerChildren from '../components/StaggerChildren.astro';
+import FlipCard from '../components/FlipCard.astro';
 import PillButton from '../components/PillButton.astro';
 import HoloSlider from '../components/HoloSlider.astro';
 import HoloToggle from '../components/HoloToggle.astro';
@@ -989,6 +990,80 @@ import CodeBlock from '../components/CodeBlock.astro';
 <!-- composes with magnetic + any pill variant -->
 <button class="sk-pill sk-pill-holo sk-ripple sk-magnetic"
         data-sk-ripple data-sk-magnetic>both effects</button>`} />
+
+    {/* ============================================================ */}
+    {/* Flip card                                                     */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Flip card</h2>
+    <p class="site-section-note">
+      3D card-flip on hover (default) or click-toggle (CSS-only via
+      <code>:has()</code> + a hidden checkbox). The inner container
+      has <code>transform-style: preserve-3d</code>; each face has
+      <code>backface-visibility: hidden</code> so only one is
+      visible at a time. Pure CSS — zero JS.
+    </p>
+
+    <div class="site-grid-2" style="margin-bottom: 12px; gap: 24px;">
+      <FlipCard height="240px">
+        <div slot="front" style="display: flex; flex-direction: column; height: 100%; justify-content: space-between;">
+          <p class="site-eyebrow">/ sk-flip-card · hover</p>
+          <h3 style="font-family: var(--font-display); font-size: 26px; margin: 8px 0; letter-spacing: -0.02em;">
+            Hover to flip.
+          </h3>
+          <p style="color: var(--sk-text-secondary); font-size: 14px; line-height: 1.6;">
+            Cursor enters → card spins. Cursor leaves → spins back.
+          </p>
+        </div>
+        <div slot="back" style="display: flex; flex-direction: column; height: 100%; justify-content: space-between; background: linear-gradient(135deg, rgba(217,119,87,0.18), rgba(142,127,184,0.18)); border-radius: inherit; padding: 24px; margin: -24px;">
+          <p class="site-eyebrow">/ back face</p>
+          <h3 style="font-family: var(--font-display); font-size: 22px; margin: 8px 0; letter-spacing: -0.015em;">
+            What's behind?
+          </h3>
+          <p style="color: var(--sk-text-secondary); font-size: 14px; line-height: 1.6;">
+            Anything you want — different content, image, form, link.
+          </p>
+        </div>
+      </FlipCard>
+
+      <FlipCard toggle height="240px">
+        <div slot="front" style="display: flex; flex-direction: column; height: 100%; justify-content: space-between;">
+          <p class="site-eyebrow">/ + sk-flip-card-toggle · click</p>
+          <h3 style="font-family: var(--font-display); font-size: 26px; margin: 8px 0; letter-spacing: -0.02em;">
+            Click to toggle.
+          </h3>
+          <p style="color: var(--sk-text-secondary); font-size: 14px; line-height: 1.6;">
+            State sticks until you click again. CSS-only via hidden
+            checkbox + <code>:has()</code>.
+          </p>
+        </div>
+        <div slot="back" style="display: flex; flex-direction: column; height: 100%; justify-content: space-between; background: linear-gradient(135deg, rgba(107,141,201,0.18), rgba(127,182,158,0.18)); border-radius: inherit; padding: 24px; margin: -24px;">
+          <p class="site-eyebrow">/ back face</p>
+          <h3 style="font-family: var(--font-display); font-size: 22px; margin: 8px 0; letter-spacing: -0.015em;">
+            Click again.
+          </h3>
+          <p style="color: var(--sk-text-secondary); font-size: 14px; line-height: 1.6;">
+            …to flip back. The toggle state persists across hover.
+          </p>
+        </div>
+      </FlipCard>
+    </div>
+
+    <CodeBlock code={`<!-- hover-flip (default) -->
+<div class="sk-flip-card" style="height: 240px;">
+  <div class="sk-flip-card-inner">
+    <div class="sk-flip-card-face sk-flip-card-front">…front…</div>
+    <div class="sk-flip-card-face sk-flip-card-back">…back…</div>
+  </div>
+</div>
+
+<!-- click-to-toggle (CSS-only) — wrap in <label> with hidden checkbox -->
+<label class="sk-flip-card sk-flip-card-toggle" style="height: 240px;">
+  <input type="checkbox" hidden />
+  <div class="sk-flip-card-inner">
+    <div class="sk-flip-card-face sk-flip-card-front">…</div>
+    <div class="sk-flip-card-face sk-flip-card-back">…</div>
+  </div>
+</label>`} />
 
     {/* ============================================================ */}
     {/* Reveal + stagger                                              */}

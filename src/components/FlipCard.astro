@@ -1,0 +1,27 @@
+---
+interface Props {
+  toggle?: boolean;
+  height?: string;
+  class?: string;
+}
+
+const { toggle = false, height = '240px', class: className = '' } = Astro.props;
+
+const baseClasses = ['sk-flip-card', toggle ? 'sk-flip-card-toggle' : '', className]
+  .filter(Boolean)
+  .join(' ');
+
+const Tag = toggle ? 'label' : 'div';
+---
+
+<Tag class={baseClasses} style={`height: ${height};`}>
+  {toggle && <input type="checkbox" hidden />}
+  <div class="sk-flip-card-inner">
+    <div class="sk-flip-card-face sk-flip-card-front">
+      <slot name="front" />
+    </div>
+    <div class="sk-flip-card-face sk-flip-card-back">
+      <slot name="back" />
+    </div>
+  </div>
+</Tag>

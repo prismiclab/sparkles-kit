@@ -1809,6 +1809,86 @@
 }
 
 /* ============================================================
+   31. Flip card — 3D card-flip on hover (or click-toggle)
+   ------------------------------------------------------------
+   <div class="sk-flip-card" style="height: 240px;">
+     <div class="sk-flip-card-inner">
+       <div class="sk-flip-card-face sk-flip-card-front">…front…</div>
+       <div class="sk-flip-card-face sk-flip-card-back">…back…</div>
+     </div>
+   </div>
+
+   Or click-to-toggle (CSS-only via hidden checkbox + :has()):
+
+   <label class="sk-flip-card sk-flip-card-toggle" style="height: 240px;">
+     <input type="checkbox" hidden />
+     <div class="sk-flip-card-inner">
+       <div class="sk-flip-card-face sk-flip-card-front">…</div>
+       <div class="sk-flip-card-face sk-flip-card-back">…</div>
+     </div>
+   </label>
+
+   Pure CSS — transform-style:preserve-3d on the inner, with
+   backface-visibility:hidden on each face so only one shows at
+   a time. The back face starts pre-rotated 180° so when the
+   inner spins, the back swings forward into view.
+   ============================================================ */
+.sk-flip-card {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  perspective: 1200px;
+  cursor: pointer;
+}
+
+.sk-flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 700ms cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.sk-flip-card-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  padding: 24px;
+  background: var(--sk-bg-elevated);
+  border: 1px solid var(--sk-border-subtle);
+  color: var(--sk-text-primary);
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+}
+
+.sk-flip-card-back {
+  transform: rotateY(180deg);
+}
+
+/* Hover-flip is the default. The :has() rule below covers
+   click-toggle when .sk-flip-card-toggle is present. */
+.sk-flip-card:hover .sk-flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Click-to-toggle modifier — the parent is a <label> with a
+   hidden checkbox; clicking anywhere toggles checked, and :has()
+   drives the rotation. Hover-flip is disabled here so the click
+   state owns the card. */
+.sk-flip-card-toggle {
+  cursor: pointer;
+}
+
+.sk-flip-card-toggle:hover .sk-flip-card-inner {
+  transform: none; /* let click-state win */
+}
+
+.sk-flip-card-toggle:has(input:checked) .sk-flip-card-inner,
+.sk-flip-card-toggle:has(input:checked):hover .sk-flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* ============================================================
    28. Custom cursor — soft glow following the OS pointer
    ------------------------------------------------------------
    <div class="sk-cursor" aria-hidden="true"></div>
@@ -1996,6 +2076,9 @@
   .sk-tilt-tile,
   .sk-magnetic {
     transform: none !important;
+  }
+  .sk-flip-card-inner {
+    transition: none !important;
   }
   .sk-ripple-wave { display: none; }
   .sk-cursor      { opacity: 0 !important; }
