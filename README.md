@@ -50,6 +50,9 @@ Sparkles-kit takes that vocabulary, dials the aurora a touch louder (because we 
 | Noise overlay | `.sk-noise-overlay` | Subtle SVG-grain layer for cinematic finish. Mount once on body. |
 | Reveal | `.sk-reveal` | Scroll-driven entrance — element fades + slides up as it enters the viewport via `animation-timeline: view()`. Zero JS, graceful fallback. |
 | Stagger children | `.sk-stagger-children` (children get `--i` from nth-child up to 12) | Cascade reveal — each child enters slightly after the previous as the parent scrolls into view. |
+| Custom cursor | `.sk-cursor` (mount once) | **Interactive.** Soft halo follows OS pointer with lag. Grows on hover over interactive elements. Hidden on touch. Needs JS. |
+| Magnetic | `.sk-magnetic` + `data-sk-magnetic` (+ `data-sk-magnetic-strength`) | **Interactive.** Element pulls toward cursor on hover. Linear/Vercel CTA flavor. Needs JS. |
+| Ripple | `.sk-ripple` + `data-sk-ripple` | **Interactive.** Material-style click wave from cursor position. Needs JS. |
 | Pill button | `.sk-pill` (+ `.sk-pill-ghost`, `.sk-pill-holo`) | Three pill-shaped button variants. The holo one wraps a rotating rainbow ring. |
 | Slider | `.sk-slider` | Cross-browser styled `<input type="range">` with full-aurora track. |
 | Toggle | `.sk-toggle` | Pill-style on/off switch. Track gradients to aurora when checked. |

@@ -931,6 +931,66 @@ import CodeBlock from '../components/CodeBlock.astro';
     <CodeBlock code={`<div class="sk-noise-overlay" aria-hidden="true"></div>`} />
 
     {/* ============================================================ */}
+    {/* Custom cursor                                                 */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Custom cursor</h2>
+    <p class="site-section-note">
+      Soft halo that follows the OS pointer with a slight lag.
+      It's already running on this page — the small ring you see
+      around your cursor right now is <code>.sk-cursor</code>.
+      It grows when you hover over interactive elements
+      (links, buttons, inputs, spotlight tiles, etc.).
+      Hidden on touch devices automatically.
+    </p>
+    <CodeBlock code={`<!-- once per page in your root layout -->
+<div class="sk-cursor" aria-hidden="true"></div>
+
+<!-- + the JS layer to animate it -->
+<script src="/sparkles-kit.js" defer></script>`} />
+
+    {/* ============================================================ */}
+    {/* Magnetic                                                      */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Magnetic buttons</h2>
+    <p class="site-section-note">
+      Buttons that subtly pull toward your cursor on hover. Linear,
+      Vercel, Stripe all use this for primary CTAs. Strength
+      defaults to <code>0.3</code> (the button moves 30% of the
+      cursor-to-center distance); override per-element with
+      <code>data-sk-magnetic-strength</code>.
+    </p>
+    <div class="site-demo" style="gap: 24px;">
+      <button class="sk-pill sk-magnetic" data-sk-magnetic>default 0.3</button>
+      <button class="sk-pill sk-pill-ghost sk-magnetic" data-sk-magnetic data-sk-magnetic-strength="0.15">subtle 0.15</button>
+      <button class="sk-pill sk-pill-holo sk-magnetic" data-sk-magnetic data-sk-magnetic-strength="0.55">strong 0.55</button>
+    </div>
+    <CodeBlock code={`<button class="sk-pill sk-magnetic" data-sk-magnetic>default</button>
+
+<button class="sk-pill sk-magnetic" data-sk-magnetic
+        data-sk-magnetic-strength="0.55">stronger pull</button>`} />
+
+    {/* ============================================================ */}
+    {/* Ripple                                                        */}
+    {/* ============================================================ */}
+    <h2 class="site-h2">Click ripple</h2>
+    <p class="site-section-note">
+      Material-style wave that expands from the click point. JS
+      appends a <code>&lt;span class="sk-ripple-wave"&gt;</code> at
+      the click coordinates; the CSS animation expands it to ~2.4×
+      and fades it out, then the script removes the element.
+    </p>
+    <div class="site-demo" style="gap: 16px;">
+      <button class="sk-pill sk-ripple" data-sk-ripple>click for ripple</button>
+      <button class="sk-pill sk-pill-ghost sk-ripple" data-sk-ripple>or me</button>
+      <button class="sk-pill sk-pill-holo sk-ripple sk-magnetic" data-sk-ripple data-sk-magnetic>both</button>
+    </div>
+    <CodeBlock code={`<button class="sk-pill sk-ripple" data-sk-ripple>click me</button>
+
+<!-- composes with magnetic + any pill variant -->
+<button class="sk-pill sk-pill-holo sk-ripple sk-magnetic"
+        data-sk-ripple data-sk-magnetic>both effects</button>`} />
+
+    {/* ============================================================ */}
     {/* Reveal + stagger                                              */}
     {/* ============================================================ */}
     <h2 class="site-h2">Reveal + stagger on scroll</h2>

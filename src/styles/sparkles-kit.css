@@ -1809,6 +1809,101 @@
 }
 
 /* ============================================================
+   28. Custom cursor — soft glow following the OS pointer
+   ------------------------------------------------------------
+   <div class="sk-cursor" aria-hidden="true"></div>
+
+   Mount once in your layout. sparkles-kit.js animates --sk-cx /
+   --sk-cy (lerped target → smooth follow), and toggles .is-hover
+   when the pointer is over interactive elements. The OS cursor
+   stays visible — this is a co-cursor halo, not a replacement.
+   ============================================================ */
+.sk-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 22px;
+  height: 22px;
+  margin: -11px 0 0 -11px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  background: rgba(245, 241, 235, 0.05);
+  border: 1px solid rgba(245, 241, 235, 0.55);
+  box-shadow:
+    0 0 16px rgba(var(--sk-section-rgb), 0.35),
+    inset 0 0 6px rgba(var(--sk-section-rgb), 0.20);
+  transform: translate(var(--sk-cx, -100px), var(--sk-cy, -100px));
+  transition: width 250ms ease-out, height 250ms ease-out,
+              margin 250ms ease-out, opacity 250ms ease-out,
+              border-color 250ms ease-out;
+  opacity: 0;
+}
+
+.sk-cursor.is-active { opacity: 1; }
+
+.sk-cursor.is-hover {
+  width: 44px;
+  height: 44px;
+  margin: -22px 0 0 -22px;
+  border-color: rgb(var(--sk-section-rgb));
+  background: rgba(var(--sk-section-rgb), 0.12);
+}
+
+/* Hide on coarse pointers (touch devices) — no cursor exists. */
+@media (pointer: coarse) {
+  .sk-cursor { display: none; }
+}
+
+/* ============================================================
+   29. Magnetic — element pulls toward cursor on hover
+   ------------------------------------------------------------
+   <button class="sk-pill sk-magnetic" data-sk-magnetic>click me</button>
+   <button class="sk-pill sk-magnetic" data-sk-magnetic
+           data-sk-magnetic-strength="0.5">stronger pull</button>
+
+   Needs sparkles-kit.js. The script tracks pointer position
+   relative to the element center and applies a translate via
+   --sk-mag-x / --sk-mag-y. Strength defaults to 0.3 (cursor
+   moves the element 30% of the cursor-to-center distance);
+   override per-element with data-sk-magnetic-strength.
+   ============================================================ */
+.sk-magnetic {
+  transform: translate(var(--sk-mag-x, 0), var(--sk-mag-y, 0));
+  transition: transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+/* ============================================================
+   30. Ripple — Material-style click wave from cursor position
+   ------------------------------------------------------------
+   <button class="sk-pill sk-ripple" data-sk-ripple>tap me</button>
+
+   Needs sparkles-kit.js. On click the script appends a
+   <span class="sk-ripple-wave"> at the click coordinates inside
+   the parent; the CSS animation expands and fades it out, then
+   the script removes the element.
+   ============================================================ */
+.sk-ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.sk-ripple-wave {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(245, 241, 235, 0.4);
+  pointer-events: none;
+  transform: scale(0);
+  animation: sk-ripple-expand 600ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes sk-ripple-expand {
+  0%   { transform: scale(0);   opacity: 0.85; }
+  100% { transform: scale(2.4); opacity: 0;    }
+}
+
+/* ============================================================
    27. Reveal + stagger — scroll-driven entrance animations
    ------------------------------------------------------------
    <div class="sk-reveal">…fades + slides up as it scrolls in…</div>
@@ -1898,9 +1993,12 @@
   .sk-avatar-ring {
     animation: none !important;
   }
-  .sk-tilt-tile {
+  .sk-tilt-tile,
+  .sk-magnetic {
     transform: none !important;
   }
+  .sk-ripple-wave { display: none; }
+  .sk-cursor      { opacity: 0 !important; }
   /* Reveal/stagger: skip the entrance animation so elements show
      at their final state instead of staying invisible. */
   .sk-reveal,

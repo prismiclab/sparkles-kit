@@ -168,12 +168,137 @@
     });
   }
 
+  /* ----------------------------------------------------------
+     Custom cursor — soft halo following the OS pointer with lag
+     ---------------------------------------------------------- */
+  function initCursor(root) {
+    if (reduced) return;
+    // Skip on coarse pointers (touch screens) — no cursor exists.
+    if (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) return;
+
+    const scope = root || document;
+    const cursor = scope.querySelector('.sk-cursor');
+    if (!cursor || cursor.dataset.skInitCursor === '1') return;
+    cursor.dataset.skInitCursor = '1';
+
+    let tx = -100, ty = -100;
+    let cx = -100, cy = -100;
+    let active = false;
+
+    function frame() {
+      cx += (tx - cx) * 0.22;
+      cy += (ty - cy) * 0.22;
+      cursor.style.setProperty('--sk-cx', cx.toFixed(1) + 'px');
+      cursor.style.setProperty('--sk-cy', cy.toFixed(1) + 'px');
+      requestAnimationFrame(frame);
+    }
+
+    document.addEventListener('pointermove', (e) => {
+      tx = e.clientX;
+      ty = e.clientY;
+      if (!active) {
+        active = true;
+        cursor.classList.add('is-active');
+      }
+    }, { passive: true });
+
+    document.addEventListener('pointerleave', () => {
+      cursor.classList.remove('is-active');
+      active = false;
+    });
+
+    // Grow cursor when over interactive elements
+    const HOVER_SELECTOR =
+      'a, button, input, textarea, label, summary, [role="button"], ' +
+      '[data-sk-spotlight], [data-sk-tilt], [data-sk-magnetic], ' +
+      '[data-sk-ripple], [data-sk-glow-stick]';
+
+    document.addEventListener('pointerover', (e) => {
+      const target = e.target;
+      if (target && target.closest && target.closest(HOVER_SELECTOR)) {
+        cursor.classList.add('is-hover');
+      }
+    });
+    document.addEventListener('pointerout', (e) => {
+      const target = e.target;
+      if (target && target.closest && target.closest(HOVER_SELECTOR)) {
+        cursor.classList.remove('is-hover');
+      }
+    });
+
+    requestAnimationFrame(frame);
+  }
+
+  /* ----------------------------------------------------------
+     Magnetic — element pulls toward cursor on hover
+     ---------------------------------------------------------- */
+  function initMagnetic(root) {
+    if (reduced) return;
+    const scope = root || document;
+    scope.querySelectorAll('[data-sk-magnetic]').forEach((el) => {
+      if (el.dataset.skInitMag === '1') return;
+      el.dataset.skInitMag = '1';
+
+      const strength = parseFloat(el.dataset.skMagneticStrength || '0.3');
+
+      el.addEventListener('pointermove', (e) => {
+        const r = el.getBoundingClientRect();
+        const cx = r.left + r.width / 2;
+        const cy = r.top + r.height / 2;
+        const dx = (e.clientX - cx) * strength;
+        const dy = (e.clientY - cy) * strength;
+        el.style.setProperty('--sk-mag-x', dx.toFixed(1) + 'px');
+        el.style.setProperty('--sk-mag-y', dy.toFixed(1) + 'px');
+      });
+
+      el.addEventListener('pointerleave', () => {
+        el.style.setProperty('--sk-mag-x', '0px');
+        el.style.setProperty('--sk-mag-y', '0px');
+      });
+    });
+  }
+
+  /* ----------------------------------------------------------
+     Ripple — Material-style click wave from cursor position
+     ---------------------------------------------------------- */
+  function initRipple(root) {
+    if (reduced) return;
+    const scope = root || document;
+    scope.querySelectorAll('[data-sk-ripple]').forEach((el) => {
+      if (el.dataset.skInitRipple === '1') return;
+      el.dataset.skInitRipple = '1';
+
+      // Force position:relative + overflow:hidden via class fallback
+      // (the .sk-ripple class sets these, but enforce here too).
+      const cs = getComputedStyle(el);
+      if (cs.position === 'static') el.style.position = 'relative';
+      if (cs.overflow === 'visible') el.style.overflow = 'hidden';
+
+      el.addEventListener('click', (e) => {
+        const r = el.getBoundingClientRect();
+        const wave = document.createElement('span');
+        wave.className = 'sk-ripple-wave';
+        // Wave diameter = longest tile dimension × 1.5 so it sweeps
+        // past the far corner cleanly.
+        const size = Math.max(r.width, r.height) * 1.5;
+        wave.style.width = wave.style.height = size + 'px';
+        wave.style.left = (e.clientX - r.left - size / 2) + 'px';
+        wave.style.top  = (e.clientY - r.top  - size / 2) + 'px';
+        el.appendChild(wave);
+        setTimeout(() => wave.remove(), 650);
+      });
+    });
+  }
+
   /* ---------------------------------------------------------- */
 
   function initAll(root) {
     initSpotlightTiles(root);
     initTiltTiles(root);
     initCmdk(root);
+    initCursor(root);
+    initMagnetic(root);
+    initRipple(root);
   }
 
   if (document.readyState === 'loading') {
@@ -186,5 +311,8 @@
   window.sparklesKit.initSpotlightTiles = initSpotlightTiles;
   window.sparklesKit.initTiltTiles = initTiltTiles;
   window.sparklesKit.initCmdk = initCmdk;
+  window.sparklesKit.initCursor = initCursor;
+  window.sparklesKit.initMagnetic = initMagnetic;
+  window.sparklesKit.initRipple = initRipple;
   window.sparklesKit.initAll = initAll;
 })();
